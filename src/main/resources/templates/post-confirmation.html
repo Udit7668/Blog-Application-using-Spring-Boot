@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      td,th{
+      border:2px solid black;
+      }
+      
+      #nav{
+      display: flex;
+      justify-content: space-between;
+      }
+      
+      #action{
+      display: flex;
+      padding: 10px;
+      }
+      
+      .pagination{
+      display: flex;
+      padding:10px;
+      }
+      .pagination li{
+      margin: 20px;
+      }
+
+      #delete{
+    text-decoration: none;
+
+      }
+      </style>
+
+</head>
+<body>
+    
+
+    <h1>All posts are</h1>
+    <div id="nav">
+    <div id="add">
+
+    <form th:action="@{/newPost}">
+    <button type="submit">Add Post</button>
+    </form>
+
+    </div>
+    <div id="action">
+    <div id="search">
+    <form th:action="@{/search}">
+     Search::<input type="text" name="title">
+    <button type="submit">Search</button>
+    </form>
+    </div>
+    <div id="sort">
+    <form th:action="@{/sort}">
+    Sort:: <select name="sortby">
+    <option value="asc" label="Ascending">
+    <option value="desc" label="Descending">
+    <select>
+    <button type="submit">Sort</button>
+    </form>
+    </div>
+    </div>
+    </div>
+    <table>
+    
+    
+    <tr>
+    <th>Post Title</th>
+    <th>Post Excrept</th>
+    <th>Post Published</th>
+    <th>Post Author</th>
+    <th>Post Tags</th>
+    <th>Post Creation Date</th>
+    <th>Post Update Date</th>
+    </tr>
+     <div th:each=" post: ${posts}">   
+    <tr>
+    <td><span th:text="${post.title}"></span></td>
+    <td><span th:text="${post.excrept}"></span></td>
+    <td><span th:text="${post.isPublished}"></span></td>
+    <td><span th:text="${post.author}"></span></td>
+    <td>
+      
+       <li th:each=" tag: ${post.tags}">  
+          <span th:text="${tag.name}"></span>
+        </li>
+        
+    </td>
+    <td><span th:text="${post.creationDate}"></span></td>
+    <td><span th:text="${post.updateDate}"></span></td>
+    <td>
+    
+      <a th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete" >Delete</a>
+    </td>
+    
+    
+    
+    <td>
+      <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
+         </td>
+    
+    
+    
+    </tr>
+</div>
+    </table>
+    Filter::
+    <form action="filter">
+    
+    Cricket::<input type="checkbox" value="cricket" name="filtertags">
+    Hockey::<input type="checkbox" value="Hockey" name="filtertags" >
+    Politics::<input type="checkbox" value="Politics" name="filtertags">
+    Business::<input type="checkbox" value="Business" name="filtertags">
+    <br>
+    <input type="submit" value="Filter">
+    </form>
+    
+
+</body>
+</html>
