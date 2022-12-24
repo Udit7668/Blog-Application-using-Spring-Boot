@@ -16,12 +16,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.udit.blogapplication.entities.Comment;
 import com.udit.blogapplication.entities.Post;
 import com.udit.blogapplication.entities.Tag;
+import com.udit.blogapplication.services.CommentService;
 import com.udit.blogapplication.services.PostService;
 
 @Controller
 public class PostController {
     @Autowired
    private PostService postService;
+
+   @Autowired
+private CommentService commentService;
+
     @GetMapping("/newPost")
     public String addPost(Model model){
      Post post=new Post();
@@ -72,7 +77,8 @@ public class PostController {
       Post post=  this.postService.getPostById(id);
       model.addAttribute("post",post);
 		this.postService.addComment(comment, id);
-        model.addAttribute("comment",comment);
+        Comment commentNew=new Comment();
+        model.addAttribute("comment",commentNew);
 	   return "view-post";
 	}
 
@@ -98,6 +104,18 @@ public class PostController {
        System.out.println(postId+"...................*****");
        this.postService.deleteComment(deleteId,postId);
 		return "redirect:/view/"+postId;
+	}
+
+
+    @GetMapping("/updateComment/{updateId}")
+	public String updateComment(@PathVariable("updateId") Integer commentId,@RequestParam("postId") Integer postId,Model model) {
+	    Comment comment=this.commentService.getCommentById(commentId);
+       this.postService.deleteComment(commentId, postId);
+       model.addAttribute("comment", comment);
+       Post post=this.postService.getPostById(postId);
+       model.addAttribute("post", post);
+        System.out.println("*************  "+postId+" ****************");
+		return "view-post";
 	}
 	
 

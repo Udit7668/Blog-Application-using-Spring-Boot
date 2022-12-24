@@ -49,9 +49,9 @@
             <input type="hidden" th:value="${post.id}" name="postId">
             <button type="submit" >Delete</button>
           </form>
-          <form action="updateComment">
-            <input type="hidden" value="${post.id}" name="postId">
-            <button type="submit" th:value="${comment.id}" name="updateId">Update</button>
+          <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
+            <input type="hidden" th:value="${post.id}" name="postId">
+            <button type="submit">Update</button>
           </form>
           <hr>
         </div>
@@ -73,7 +73,7 @@
         </div>
         
         </div>
-        <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comments}">
+        <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comment}">
         <form:hidden path="id"/>
         Name:
         <br>
