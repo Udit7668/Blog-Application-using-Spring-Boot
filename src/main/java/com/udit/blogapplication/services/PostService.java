@@ -57,4 +57,12 @@ public class PostService {
     }
 
 
+    public void deleteComment(Integer deleteId,Integer postId){
+       Comment comment= this.commentRespository.findCommentById(deleteId);
+       Post post=this.postRepository.findPostById(postId);
+       post.getComments().remove(comment);
+       this.commentRespository.delete(comment);
+    }
+
+
 }

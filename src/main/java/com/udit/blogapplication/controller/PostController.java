@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udit.blogapplication.entities.Comment;
@@ -89,6 +90,15 @@ public class PostController {
 		return "update-post";
 	}
 
+
+    @GetMapping("/deleteComment/{deleteId}")
+	public String deleteComment(@PathVariable("deleteId") Integer deleteId,Model model,@RequestParam("postId") Integer postId) {
+	   model.addAttribute("viewId",deleteId);
+       System.out.println(deleteId+"__________________________________");
+       System.out.println(postId+"...................*****");
+       this.postService.deleteComment(deleteId,postId);
+		return "redirect:/view/"+postId;
+	}
 	
 
 
