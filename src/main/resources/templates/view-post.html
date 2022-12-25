@@ -1,101 +1,105 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <div id="container">
 
-        <div id="content"><h1>Created by:-<span th:text="${post.author}"></span></h1>
-        <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
-        <h4>Updated At:<span th:text="${post.updateDate }"></span></h4>
-        <h4>Tags::
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+    #container {
+      margin-left: 400px;
+      margin-right: 400px;
+      margin-top: 20px;
+      border: 2px solid black;
+      height: 900px;
+      padding: 30px;
+    }
+
+    #comments {
+      border: 2px solid black;
+      padding: 10px;
+      display: grid;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="container">
+
+    <div id="content">
+      <h1>Created by:-<span th:text="${post.author}"></span></h1>
+      <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
+      <h4>Updated At:<span th:text="${post.updateDate }"></span></h4>
+      <h4>Tags::
         <ul>
-     <h4> <li th:each=" tag: ${post.tags}">
-        <span th:text="${tag.name}"></span>
-      </li>
+          <h4>
+            <li th:each=" tag: ${post.tags}">
+              <span th:text="${tag.name}"></span>
+            </li>
         </ul>
       </h4>
-        
-        </h4>
-        <h1>Content</h1>
-        <br>
-        <p><span th:text="${post.content} "></span></p>
-        
-        <a th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete" >Delete</a>
-        <br>
-        <br>
-        <td>
-        
+
+      </h4>
+      <h1>Content</h1>
+      <br>
+      <p><span th:text="${post.content} "></span></p>
+
+      <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
+      <br>
+      <br>
+      <td>
+
         <form th:action="@{/update/{viewId}(viewId=${post.id})}">
-        <!-- <input type="hidden" value="${post.comments}" name="comments">-->
-          <button type="submit" >Update</button>
+          <!-- <input type="hidden" value="${post.comments}" name="comments">-->
+          <button type="submit">Update</button>
         </form>
-        </td>
-        <br>
-        <br>
-        </div>
-        
-        <div id="content">
-        <div id="comments">
-          <div th:each=" comment: ${post.comments}">
+      </td>
+      <br>
+      <br>
+    </div>
+
+    <div id="content">
+      <div id="comments">
+        <div th:each=" comment: ${post.comments}">
           <h4 th:text="${comment.name}"></h4>
           <h4 th:text="${comment.comment}"></h4>
           <form th:action="@{/deleteComment/{deleteId}(deleteId=${comment.id})}">
             <input type="hidden" th:value="${post.id}" name="postId">
-            <button type="submit" >Delete</button>
+            <button type="submit">Delete</button>
           </form>
           <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
             <input type="hidden" th:value="${post.id}" name="postId">
             <button type="submit">Update</button>
           </form>
-          <hr>
+          <br>
         </div>
-        <!--  <c:forEach items="${post.comments}" var="single">
-          <p>${single.name}</p>
-          <p>${single.comment} </p>
-          <div id="delete"> 
-        <form action="deleteComment">
-          <input type="hidden" value="${post.id}" name="postId">
-          <button type="submit" value="${single.id}" name="deleteId">Delete</button>
-        </form>
-        <form action="updateComment">
-          <input type="hidden" value="${post.id}" name="postId">
-          <button type="submit" value="${single.id}" name="updateId">Update</button>
-        </form>
-        -->
       </div>
-        
-        </div>
-        
-        </div>
-        <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comment}">
-        <form:hidden path="id"/>
-        Name:
-        <br>
-        <input type="text" name="name" th:value="${comment.name}"/>
-        <br>
-        Email:
-        <br>
-        <input name="email" th:value="${comment.email}"/>
-        <br>
-        Comment:
-        <br>
-        <textarea name="comment"  th:value="${comment.comment}"></textarea>
-        <br>
-        <form>
+    </div>
+
+    <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comment}">
+      <form:hidden path="id" />
+      Name:
+      <br>
+      <input type="text" name="name" th:value="${comment.name}" />
+      <br>
+      Email:
+      <br>
+      <input name="email" th:value="${comment.email}" />
+      <br>
+      Comment:
+      <br>
+      <textarea name="comment" th:value="${comment.comment}"></textarea>
+      <br>
+      <form>
         <button type="submit"> Comment</button>
-        </form>
       </form>
-        
-        
-        
-        
-        
-        </div>
+    </form>
+
+  </div>
+  </div>
+  </div>
 </body>
+
 </html>

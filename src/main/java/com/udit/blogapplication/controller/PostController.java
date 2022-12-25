@@ -54,7 +54,7 @@ private CommentService commentService;
 
     @GetMapping("/delete/{viewId}")
 	public String deletePost(@PathVariable(value="viewId") Integer id) {
-    System.out.println(id+"................................");
+    
 		this.postService.deletePost(id);
 		return "redirect:/";
 	}
@@ -62,9 +62,7 @@ private CommentService commentService;
     @GetMapping("/view/{viewId}")
 	public String viewPost(@PathVariable("viewId") Integer id,Model model){
 		Post post=this.postService.getPostById(id);
-        System.out.println("...........................");
-        System.out.println(post);
-        System.out.println("..........................");
+    
 		model.addAttribute("post",post);
 		Comment comment=new Comment();
 		model.addAttribute("comment",comment);
@@ -87,21 +85,27 @@ private CommentService commentService;
     @GetMapping("/update/{viewId}")
 	public String updatePost(@PathVariable("viewId") Integer id,Model model) {
       Post post=this.postService.getPostById(id);
-      Tag tags=new Tag();
-      System.out.println(id+".................");
-    
+      Tag tags=new Tag(); 
       model.addAttribute("tags",tags);
       model.addAttribute("comments","comments");
       model.addAttribute("post",post);
 		return "update-post";
 	}
 
+    @GetMapping("/updatepost")
+	public String updatePost(@ModelAttribute("post") Post post,Model model,@ModelAttribute("tags") Tag tags) {
+		this.postService.addPost(post);
+        System.out.println("********************************");
+          System.out.println(tags);
+		this.postService.addTags(post, tags);
+	   return "redirect:/";
+	}
+
 
     @GetMapping("/deleteComment/{deleteId}")
 	public String deleteComment(@PathVariable("deleteId") Integer deleteId,Model model,@RequestParam("postId") Integer postId) {
 	   model.addAttribute("viewId",deleteId);
-       System.out.println(deleteId+"__________________________________");
-       System.out.println(postId+"...................*****");
+      
        this.postService.deleteComment(deleteId,postId);
 		return "redirect:/view/"+postId;
 	}
@@ -114,7 +118,6 @@ private CommentService commentService;
        model.addAttribute("comment", comment);
        Post post=this.postService.getPostById(postId);
        model.addAttribute("post", post);
-        System.out.println("*************  "+postId+" ****************");
 		return "view-post";
 	}
 	

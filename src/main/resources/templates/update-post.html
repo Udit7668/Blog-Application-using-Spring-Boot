@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<div id="container">
+    <h1>Make You post Here</h1>
+    <form  th:action="@{/updatepost}"   th:object="${post}">
+    
+    <!-- Need to associate the customer id with form data -->
+    <input type="hidden" name="id" th:value="${post.id}"/>
+    Enter Title:: <br>
+    <input type="text" name="title" th:value="${post.title}"/>
+    <br>
+    <br>
+    Enter Excrept::<br>
+    <input type="text" name="excrept" th:value="${post.excrept}"/>
+    <br>
+    <br>
+    Author::<br>
+    <input type="text" name="author" th:value="${post.author}"/>
+    <br>
+    <br>
+    Enter Content::
+    <br>
+    <input type="textarea" name="content" th:value="${post.content}">
+    <br>
+    <br>
+    <form th:action="@{/updatepost}" th:object="${post.tags}">
+        Enter Tag:<br>
+        Cricket:: <input type="checkbox"   name="name" value="Cricket"/>
+        Hockey:: <input type="checkbox"    name="name" value="Hockey"/>
+        Politics:: <input type="checkbox" name="name" value="Politics"/>
+        Business:: <input type="checkbox" name="name" value="Business"/> 
+         
+         
+         <br>
+         <br>
+
+       <input type="submit" value="Pulblish Now">
+      </form> 
+     </form>
+     </div>
+     
+</body>
+</html>
