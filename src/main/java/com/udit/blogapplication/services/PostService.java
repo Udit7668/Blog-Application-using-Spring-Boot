@@ -1,5 +1,6 @@
 package com.udit.blogapplication.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.cfg.Configuration;
@@ -80,7 +81,20 @@ public class PostService {
 
 
      public List<Post> getAllPostByTitle(String searchBy){
-      List<Post> posts;
+      List<Post> posts=new ArrayList<>();
+     List<Tag> tags=this.tagRepository.getAllPostByTag(searchBy);
+     System.out.println(tags);
+     if(!tags.isEmpty()){
+     for(Tag tag:tags){
+      if(tag.getName().equalsIgnoreCase(searchBy)){
+         List<Post> listOfPost=tag.getPosts();
+         for(Post post:listOfPost){
+            posts.add(post);
+         } 
+      }
+     }
+     return posts;
+   }
       posts=this.postRepository.getAllPostByTitle(searchBy);
       return posts;
      }

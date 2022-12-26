@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.udit.blogapplication.entities.Post;
+import com.udit.blogapplication.entities.Tag;
 
 public interface PostRepository extends CrudRepository<Post,Integer> {
     
@@ -21,5 +22,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
      @Query("select u FROM Post u where u.title=:c or u.author=:c or u.content=:c")
      public List<Post> getAllPostByTitle(@Param("c") String searchBy);
+
+     
      
 }
