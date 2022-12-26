@@ -2,8 +2,6 @@ package com.udit.blogapplication.controller;
 
 import java.util.List;
 
-import javax.annotation.Generated;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.udit.blogapplication.entities.Comment;
 import com.udit.blogapplication.entities.Post;
@@ -85,7 +82,7 @@ private CommentService commentService;
     @GetMapping("/update/{viewId}")
 	public String updatePost(@PathVariable("viewId") Integer id,Model model) {
       Post post=this.postService.getPostById(id);
-      Tag tags=new Tag(); 
+     List<Tag> tags=post.getTags();
       model.addAttribute("tags",tags);
       model.addAttribute("comments","comments");
       model.addAttribute("post",post);
@@ -96,7 +93,7 @@ private CommentService commentService;
 	public String updatePost(@ModelAttribute("post") Post post,Model model,@ModelAttribute("tags") Tag tags) {
 		this.postService.addPost(post);
         System.out.println("********************************");
-          System.out.println(tags);
+          System.out.println(tags.getId());
 		this.postService.addTags(post, tags);
 	   return "redirect:/";
 	}
@@ -121,6 +118,23 @@ private CommentService commentService;
 		return "view-post";
 	}
 	
+
+    @GetMapping("/sort")
+	public String sortPosts(@RequestParam("sortby") String sortBy,Model model) {
+		List<Post> posts=this.postService.sortPost(sortBy);
+		model.addAttribute("posts",posts);
+		return "post-confirmation";	
+    }
+
+    @GetMapping("/search")
+    public String searchPosts(@RequestParam("title") String searchBy,Model model){
+        List<Post> posts=this.postService.getAllPostByTitle(searchBy);
+        model.addAttribute("posts",posts);
+        return "post-confirmation";
+    }
+
+
+
 
 
 }

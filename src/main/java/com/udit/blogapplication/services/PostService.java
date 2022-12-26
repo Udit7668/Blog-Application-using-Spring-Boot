@@ -2,6 +2,7 @@ package com.udit.blogapplication.services;
 
 import java.util.List;
 
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,7 @@ public class PostService {
     public List<Post> getAllPost(){
      List<Post> posts=   (List<Post>) this.postRepository.findAll();
      return posts;
-    }
+     }
 
 
     public void deletePost(Integer id){
@@ -64,5 +65,24 @@ public class PostService {
        this.commentRespository.delete(comment);
     }
 
+
+    public List<Post> sortPost(String sortBy){
+      List<Post> posts;
+      if(sortBy.equalsIgnoreCase("asc")){
+        posts=this.postRepository.getAllPostOrderAsc(sortBy);
+      }
+      else{
+     posts= this.postRepository.getAllPostOrderDesc(sortBy);
+      }
+     return posts;
+
+     }
+
+
+     public List<Post> getAllPostByTitle(String searchBy){
+      List<Post> posts;
+      posts=this.postRepository.getAllPostByTitle(searchBy);
+      return posts;
+     }
 
 }
