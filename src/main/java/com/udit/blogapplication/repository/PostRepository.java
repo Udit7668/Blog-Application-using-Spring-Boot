@@ -23,6 +23,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      @Query("select u FROM Post u where u.title=:c or u.author=:c or u.content=:c")
      public List<Post> getAllPostByTitle(@Param("c") String searchBy);
 
-     
+     @Query("select u FROM Post u where u.author=:c")
+     public List<Post> getAllPostByAuthor(@Param("c") String filterBy);
      
 }

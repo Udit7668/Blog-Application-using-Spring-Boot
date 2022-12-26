@@ -99,4 +99,25 @@ public class PostService {
       return posts;
      }
 
+
+     public List<Post> getAllPostByFilter(String searchBy){
+      List<Post> posts=new ArrayList<>();
+     List<Tag> tags=this.tagRepository.getAllPostByTag(searchBy);
+     System.out.println(tags);
+     if(!tags.isEmpty()){
+     for(Tag tag:tags){
+      if(tag.getName().equalsIgnoreCase(searchBy)){
+         List<Post> listOfPost=tag.getPosts();
+         for(Post post:listOfPost){
+            posts.add(post);
+         } 
+      }
+     }
+     return posts;
+   }
+      posts=this.postRepository.getAllPostByAuthor(searchBy);
+      return posts;
+     }
+
+
 }

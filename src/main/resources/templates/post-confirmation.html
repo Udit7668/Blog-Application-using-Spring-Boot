@@ -109,15 +109,21 @@
 </div>
     </table>
     Filter::
-    <form action="filter">
-    
-    Cricket::<input type="checkbox" value="cricket" name="filtertags">
-    Hockey::<input type="checkbox" value="Hockey" name="filtertags" >
-    Politics::<input type="checkbox" value="Politics" name="filtertags">
-    Business::<input type="checkbox" value="Business" name="filtertags">
-    <br>
-    <input type="submit" value="Filter">
-    </form>
+    <form th:action="@{/filter}">
+      <select name="author">
+        <div th:each=" post: ${posts}">
+      <option th:value="${post.author}" th:text="${post.author}">
+      </div>
+      <div th:each=" post: ${posts}">
+        <div th:each=" tag: ${post.tags}">
+         <option th:value="${tag.name}" th:text="${tag.name}"> 
+         </option>
+        </div>
+        </div>
+        </select>
+        <br>
+        <input type="submit" value="Filter">
+        </form>
     
 
 </body>

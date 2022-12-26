@@ -133,6 +133,13 @@ private CommentService commentService;
         return "post-confirmation";
     }
 
+    @GetMapping("/filter")
+	public String filter(@RequestParam("author") String name,Model model) {
+	     List<Post> posts=this.postService.getAllPostByFilter(name);
+         model.addAttribute("posts", posts);
+		return "post-confirmation";		
+	}
+
 
 
 
