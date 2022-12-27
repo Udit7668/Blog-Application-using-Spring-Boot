@@ -30,7 +30,7 @@
 
                 <!-- Login Form -->
                 <form th:action="@{/createUser}" 
-                           method="POST" class="form-horizontal">
+                           method="POST" class="form-horizontal" th:object="${users}">
 
                     <!-- Place for messages: error, alert etc ... -->
                     <div class="form-group">

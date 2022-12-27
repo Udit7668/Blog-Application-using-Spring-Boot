@@ -1,27 +1,38 @@
 package com.udit.blogapplication.controller;
 
-import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.udit.blogapplication.entities.User;
+import com.udit.blogapplication.services.UserService;
 
 @Controller
 public class FormController {
-    
+    @Autowired
+    private UserService userService;
+
+
     @GetMapping("/login")
     public String login(){
     return "login";
     }
 
     @GetMapping("/register")
-    public String register(){
+    public String register(Model model){
+    User user=new User();
+    model.addAttribute("users", user);
     return "sign-up";
     }
 
-    @GetMapping("/createUser")
-    public String createUser(@RequestBody User user){
+    @PostMapping("/createUser")
+    public String createUser(@ModelAttribute("users") User user){
         System.out.println(user);
-        return "";
+        this.userService.addUser(user);
+        return "login";
 
     }
 }
