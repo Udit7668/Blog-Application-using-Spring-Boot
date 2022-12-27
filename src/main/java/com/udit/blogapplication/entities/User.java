@@ -15,7 +15,7 @@ public class User {
     @Column(name="id")
 	private int id;
     
-	private String name;
+	private String username;
 	
 	private String email;
 	
@@ -34,11 +34,11 @@ public class User {
 	}
 
 	public String getName() {
-		return name;
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setName(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -60,9 +60,9 @@ public class User {
     
 	
 
-	public User(String name, String email, String password, String confirmPassword) {
+	public User(String username, String email, String password, String confirmPassword) {
 		super();
-		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
@@ -83,7 +83,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+		return "User [id=" + id + ", name=" + username + ", email=" + email + ", password=" + password
 				+ ", confirmPassword=" + confirmPassword + "]";
 	}
 
