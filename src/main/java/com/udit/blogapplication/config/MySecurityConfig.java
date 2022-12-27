@@ -21,7 +21,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         .anyRequest()
         .authenticated()
         .and()
-        .httpBasic();
+        .formLogin()
+        .loginPage("/login")
+        .loginProcessingUrl("/doLogin")
+        .defaultSuccessUrl("/")
+        ;
+
     
     }
 
