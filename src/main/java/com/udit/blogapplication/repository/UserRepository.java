@@ -6,4 +6,6 @@ import com.udit.blogapplication.entities.User;
 
 public interface UserRepository extends CrudRepository<User,Integer>{
     
+
+    public User findByUsername(String user);
 }
