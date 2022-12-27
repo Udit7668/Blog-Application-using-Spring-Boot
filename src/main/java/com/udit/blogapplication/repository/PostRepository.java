@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.udit.blogapplication.entities.Post;
-import com.udit.blogapplication.entities.Tag;
 
 public interface PostRepository extends CrudRepository<Post,Integer> {
     
