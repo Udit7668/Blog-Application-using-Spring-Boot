@@ -48,7 +48,7 @@ private CommentService commentService;
 	    // List<Post> posts= this.postService.getAllPost();
 	    // model.addAttribute("posts",posts);
 		// return "post-confirmation";
-      return  findPaginated(1, model);
+      return  findPaginated(1,"title" ,"asc" ,model);
 	}
 
     @GetMapping("/delete/{viewId}")
@@ -142,13 +142,21 @@ private CommentService commentService;
 
 
     @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") Integer pageNo,Model model){
-           int pageSize=5;
-           Page<Post> page=this.postService.findPaginated(pageNo, pageSize);
+    public String findPaginated(@PathVariable(value = "pageNo") Integer pageNo,
+    @RequestParam("sortField") String sortField,
+    @RequestParam("sortDir") String sortDir,
+    Model model){
+           int pageSize=10;
+           Page<Post> page=this.postService.findPaginated(pageNo, pageSize,sortField,sortDir);
            List<Post> listOfPosts=page.getContent();
            model.addAttribute("currentPage", pageNo);
            model.addAttribute("totalPages", page.getTotalPages());
            model.addAttribute("totalItems", page.getTotalElements());
+           
+           model.addAttribute("sortField", sortField);
+           model.addAttribute("sortDir", sortDir);
+          model.addAttribute("reverseSortDir", sortDir.equals("asc")?"desc":"asc");
+
            model.addAttribute("posts", listOfPosts);
         return "post-confirmation";
 

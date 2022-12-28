@@ -78,13 +78,19 @@
     
     <div class="container">
     <tr>
-    <th>Post Title</th>
-    <th>Post Excrept</th>
+    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${reverseSortDir}}">
+      Post Title</a></th>
+      <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=excrept&sortDir=' + ${reverseSortDir}}">
+        Post Excrept</a></th>
     <th>Post Published</th>
-    <th>Post Author</th>
-    <th>Post Tags</th>
-    <th>Post Creation Date</th>
-    <th>Post Update Date</th>
+    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=author&sortDir=' + ${reverseSortDir}}">
+      Post Author</a></th>
+      <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=tags&sortDir=' + ${reverseSortDir}}">
+        Post Tags</a></th>
+        <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=creationDate&sortDir=' + ${reverseSortDir}}">
+          Post Creation Date</a></th>
+          <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=updateDate&sortDir=' + ${reverseSortDir}}">
+            Post Updation Date</a></th>
     </tr>
      <div th:each=" post: ${posts}">   
     <tr>
