@@ -1,6 +1,7 @@
 package com.udit.blogapplication.entities;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -96,6 +97,14 @@ public class Tag {
 	public String toString() {
 		return "Tag [id=" + id + ", name=" + name + ", creationTime=" + creationTime + ", updateTime=" + updateTime
 				+ "]";
+	}
+
+
+	public void addPost(Post post){
+		if(posts==null){
+			posts=new ArrayList<>();
+		}
+		posts.add(post);
 	}
 	
 	

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.udit.blogapplication.entities.Comment;
@@ -32,7 +35,8 @@ public class PostService {
         post.addTag(tags);
         this.tagRepository.save(tags);
         }
-     
+
+
 
     public List<Post> getAllPost(){
      List<Post> posts=   (List<Post>) this.postRepository.findAll();
@@ -116,6 +120,14 @@ public class PostService {
    }
       posts=this.postRepository.getAllPostByAuthor(searchBy);
       return posts;
+     }
+
+
+
+
+    public  Page<Post> findPaginated(int pageNo,int pageSize){
+       Pageable pageable=PageRequest.of(pageNo-1,pageSize);
+      return this.postRepository.findAll(pageable);
      }
 
 

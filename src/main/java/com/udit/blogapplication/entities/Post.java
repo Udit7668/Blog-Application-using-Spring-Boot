@@ -58,11 +58,6 @@ public class Post {
 	private Timestamp updateDate;
 	 
 	
-//	@ManyToMany(cascade =CascadeType.ALL,fetch = FetchType.EAGER)
-//	@JoinTable(name = "post_comment",
-//	  joinColumns = @JoinColumn(name="post_id"),
-//	  inverseJoinColumns =@JoinColumn(name="comment_id")
-//			)
 	
 	@OneToMany(mappedBy ="posts",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<Comment> comments;

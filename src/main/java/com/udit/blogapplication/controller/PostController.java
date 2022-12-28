@@ -92,9 +92,7 @@ private CommentService commentService;
     @GetMapping("/updatepost")
 	public String updatePost(@ModelAttribute("post") Post post,Model model,@ModelAttribute("tags") Tag tags) {
 		this.postService.addPost(post);
-        System.out.println("********************************");
-          System.out.println(tags.getId());
-		this.postService.addTags(post, tags);
+       this.postService.addTags(post, tags);
 	   return "redirect:/";
 	}
 
