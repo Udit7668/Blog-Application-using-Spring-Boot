@@ -2,6 +2,8 @@ package com.udit.blogapplication.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -24,5 +26,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
      @Query("select u FROM Post u where u.author=:c")
      public List<Post> getAllPostByAuthor(@Param("c") String filterBy);
+
+    public Page<Post> findAll(Pageable pageable);
      
 }

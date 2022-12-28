@@ -3,6 +3,7 @@ package com.udit.blogapplication.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,9 +45,10 @@ private CommentService commentService;
 
     @GetMapping("/")
 	public String showAllPost(Model model) {
-	    List<Post> posts= this.postService.getAllPost();
-	    model.addAttribute("posts",posts);
-		return "post-confirmation";
+	    // List<Post> posts= this.postService.getAllPost();
+	    // model.addAttribute("posts",posts);
+		// return "post-confirmation";
+      return  findPaginated(1, model);
 	}
 
     @GetMapping("/delete/{viewId}")
@@ -138,6 +140,20 @@ private CommentService commentService;
 		return "post-confirmation";		
 	}
 
+
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable(value = "pageNo") Integer pageNo,Model model){
+           int pageSize=5;
+           Page<Post> page=this.postService.findPaginated(pageNo, pageSize);
+           List<Post> listOfPosts=page.getContent();
+           model.addAttribute("currentPage", pageNo);
+           model.addAttribute("totalPages", page.getTotalPages());
+           model.addAttribute("totalItems", page.getTotalElements());
+           model.addAttribute("posts", listOfPosts);
+        return "post-confirmation";
+
+
+    }
 
 
 
