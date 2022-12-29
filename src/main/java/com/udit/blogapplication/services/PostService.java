@@ -214,6 +214,31 @@ return posts;
       }
       return posts;
      }
+
+    //case 6--when tags and date is given
+    if(authors==null && tags!=null && !date.get(0).isBlank() && !date.get(1).isBlank()){
+      String[] str=date.get(0).split("-");
+        LocalDateTime startDate=LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]),0,0,0);
+        Date start=convertLocalDateTimeToDateUsingTimestamp(startDate);
+        String[] str1=date.get(1).split("-");
+        LocalDateTime endDate=LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]), Integer.parseInt(str1[2]),0,0,0);
+        Date end=convertLocalDateTimeToDateUsingTimestamp(endDate);
+        List<Post> list=this.postRepository.findByCreationDateBetween(start, end);
+      for(Post singlePost:list){
+         for(String tag:tags){
+       List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
+      for(Tag singleTag: listOfTags){
+       if(singleTag.getName().equals(tag)){
+         for(Post single:singleTag.getPosts()){
+            posts.add(single);
+         }
+      }
+      }
+         }
+      }
+      return posts;
+     }
+
  return null;
    }
     
