@@ -54,7 +54,7 @@
     width: 40%;
     border: 2px solid black;;
     float: left;
-    height: 200px;;
+    height: 300px;;
     padding: 20px;
     
 }  
@@ -99,78 +99,54 @@
     </div>
     </div>
     </div>
-    <table>
     
-    <div class="container">
-    <tr>
-    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=title&sortDir=' + ${reverseSortDir}}">
-      Post Title</a></th>
-      <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=excrept&sortDir=' + ${reverseSortDir}}">
-        Post Excrept</a></th>
-    <th>Post Published</th>
-    <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=author&sortDir=' + ${reverseSortDir}}">
-      Post Author</a></th>
-      <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=tags&sortDir=' + ${reverseSortDir}}">
-        Post Tags</a></th>
-        <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=creationDate&sortDir=' + ${reverseSortDir}}">
-          Post Creation Date</a></th>
-          <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=updateDate&sortDir=' + ${reverseSortDir}}">
-            Post Updation Date</a></th>
-    </tr>
-     <div th:each=" post: ${posts}">   
-    <tr>
-    <td><span th:text="${post.title}"></span></td>
-    <td><span th:text="${post.excrept}"></span></td>
-    <td><span th:text="${post.isPublished}"></span></td>
-    <td><span th:text="${post.author}"></span></td>
-    <td>
-      
-       <li th:each=" tag: ${post.tags}">  
-          <span th:text="${tag.name}"></span>
-        </li>
-        
-    </td>
-    <td><span th:text="${post.creationDate}"></span></td>
-    <td><span th:text="${post.updateDate}"></span></td>
-    <td>
-    
-      <a th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete" >Delete</a>
-    </td>
-    
-    
-    
-    <td>
-      <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
-         </td>
-    
-    
-    
-    </tr>
-  </div>
-</div>
-    </table>
 
-    Filter By Author::
-  
-    <form th:action="@{/filter}">
-        <div th:each=" author: ${authors}" th:object="${authors}">
-      <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
+    <div class="float-container">
+   
+      <div class="float-child green" th:each=" post: ${posts}">
+          
+        <h3 th:text="${post.title}"></h3>
+         <h4 th:text="${post.author}"></h4>
+         <h5 th:text="${post.creationDate}"></h5>
+         <h5 th:text="${post.updateDate}"></h5>
+             <span th:text="${post.excrept}"></span>
+          
+             <br>
+             
+               <td>
+                <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
+                   </td>
+          
       </div>
-     <br>
-        Filter By Tags::
+
+      <div id="filter">
+
+        Filter By Author::
+  
         <form th:action="@{/filter}">
-      <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
-         <input type="checkbox" th:value="${tag}" th:text="${tag}" name="author"> 
-         </option>
-        </div>
-        </select>
-        <br>
-<input type="date" name="startDate" >
-<br>
-<input type="date" name="endDate" >
-<br>
-    <input type="submit" value="Filter">
-        </form>
+            <div th:each=" author: ${authors}" th:object="${authors}">
+          <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
+          </div>
+         <br>
+            Filter By Tags::
+            <form th:action="@{/filter}">
+          <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
+             <input type="checkbox" th:value="${tag}" th:text="${tag}" name="tag"> 
+             </option>
+            </div>
+            </select>
+            <br>
+    <input type="date" name="startDate" >
+    <br>
+    <input type="date" name="endDate" >
+    <br>
+        <input type="submit" value="Filter">
+            </form>
+    
+
+      </div>
+       
+    </div>
 
 
 		<div th:if = "${totalPages > 1}">
@@ -197,51 +173,6 @@
 		</div>
     
 
-
-
-    <div class="float-container">
-   
-      <div class="float-child green" th:each=" post: ${posts}">
-          
-        <h3 th:text="${post.title}"></h3>
-             <span th:text="${post.excrept}"></span>
-             <span th:text="${post.isPublished}"></span>
-             <br>
-               <span th:text="${post.author}"></span>
-               <td>
-                <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
-                   </td>
-          
-      </div>
-
-      <div id="filter">
-
-        Filter By Author::
-  
-        <form th:action="@{/filter}">
-            <div th:each=" author: ${authors}" th:object="${authors}">
-          <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
-          </div>
-         <br>
-            Filter By Tags::
-            <form th:action="@{/filter}">
-          <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
-             <input type="checkbox" th:value="${tag}" th:text="${tag}" name="author"> 
-             </option>
-            </div>
-            </select>
-            <br>
-    <input type="date" name="startDate" >
-    <br>
-    <input type="date" name="endDate" >
-    <br>
-        <input type="submit" value="Filter">
-            </form>
-    
-
-      </div>
-       
-    </div>
 
 </body>
 </html>
