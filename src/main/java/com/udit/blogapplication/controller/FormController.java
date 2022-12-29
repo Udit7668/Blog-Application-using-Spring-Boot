@@ -31,8 +31,7 @@ public class FormController {
 
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute("users") User user){
-        System.out.println(user);
-        System.out.println("********************************************");
+        
         this.userService.addUser(user);
         return "login";
 

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.udit.blogapplication.entities.Comment;
 import com.udit.blogapplication.entities.Post;
 import com.udit.blogapplication.entities.Tag;
-import com.udit.blogapplication.entities.User;
 import com.udit.blogapplication.services.CommentService;
 import com.udit.blogapplication.services.PostService;
 
@@ -65,6 +64,8 @@ private CommentService commentService;
 		Post post=this.postService.getPostById(id);
 		model.addAttribute("post",post);
 		Comment comment=new Comment();
+           String name=authentication.getName();
+        model.addAttribute("name", name);
 		model.addAttribute("comment",comment);
 	   return "view-post";
 	}

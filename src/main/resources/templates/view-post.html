@@ -43,14 +43,14 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
       <input type="submit" value="Logout"/>
       </form>
       
+    </div>
+     <span th:with="name1=${name}" style="background-color: cyan;">
+    Welcome:- <span sec:authentication="name"></span>
     
-       <span sec:authentication="name"></span>
-      <span sec:authentication="principal.authorities"></span>
-       </div>
-    <div class="row" th:if="${#request.isUserInRole('AUTHOR')}">
-      <h2>This will only be displayed if authenticated user has role ROLE_SUPERUSER.</h2>
-  </div>
-     
+     Role:- <span sec:authentication="principal.authorities"></span>
+     </span>
+  
+       
     <div id="content">
       <h1>Created by:-<span th:text="${post.author}"></span></h1>
       <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
@@ -68,16 +68,33 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
       <h1>Content</h1>
       <br>
       <p><span th:text="${post.content} "></span></p>
-
+      <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
       <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
+      </div>
+      
+      <div class="row" th:if="${#strings.equals(name1, post.author)}">
+        <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
+    </div>
+    <br>
+      
+    <div class="row" th:if="${#strings.equals(name1, post.author)}">
+      <form th:action="@{/update/{viewId}(viewId=${post.id})}">
+        <!-- <input type="hidden" value="${post.comments}" name="comments">-->
+        <button type="submit">Update</button>
+      </form>  </div>
+     
+    </span>
+     
+
       <br>
       <br>
       <td>
-
+        <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
         <form th:action="@{/update/{viewId}(viewId=${post.id})}">
           <!-- <input type="hidden" value="${post.comments}" name="comments">-->
           <button type="submit">Update</button>
         </form>
+        </div>
       </td>
       <br>
       <br>
