@@ -1,7 +1,9 @@
 package com.udit.blogapplication.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -130,6 +132,27 @@ public class PostService {
       Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortField).ascending():Sort.by(sortField).descending();
       Pageable pageable=PageRequest.of(pageNo-1,pageSize,sort);
       return this.postRepository.findAll(pageable);
+     }
+
+
+     public Set<String> findAllAuthors(){
+       Set<String> listOfAuthors=new HashSet<>();
+       List<Post> listOfPost=(List<Post>) this.postRepository.findAll();
+       for(Post post:listOfPost){
+         listOfAuthors.add(post.getAuthor());
+       }
+      return  listOfAuthors;
+     }
+
+
+     public Set<String> findAllTags(){
+      Set<String> listOfTags=new HashSet<>();
+      List<Tag> tags=(List<Tag>) this.tagRepository.findAll();
+      for(Tag tag:tags){
+         listOfTags.add(tag.getName());
+      }
+
+      return listOfTags;
      }
 
 

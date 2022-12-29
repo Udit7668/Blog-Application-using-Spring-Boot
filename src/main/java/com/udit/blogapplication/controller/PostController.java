@@ -1,6 +1,8 @@
 package com.udit.blogapplication.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -138,6 +140,7 @@ private CommentService commentService;
 
     @GetMapping("/filter")
 	public String filter(@RequestParam("author") String name,Model model) {
+        System.out.println(name);
 	     List<Post> posts=this.postService.getAllPostByFilter(name);
          model.addAttribute("posts", posts);
 		return "post-confirmation";		
@@ -160,6 +163,11 @@ private CommentService commentService;
            model.addAttribute("sortDir", sortDir);
           model.addAttribute("reverseSortDir", sortDir.equals("asc")?"desc":"asc");
 
+          Set<String> listOfAuthors=this.postService.findAllAuthors();
+          Set<String> lisOfTags=this.postService.findAllTags();
+         model.addAttribute("authors", listOfAuthors);
+
+         model.addAttribute("listOfTags", lisOfTags);
            model.addAttribute("posts", listOfPosts);
         return "post-confirmation";
 

@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" 
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <style type="text/css">
     #container {
-      
+
       margin-left: 400px;
       margin-right: 400px;
       margin-top: 20px;
       border: 2px solid black;
-    
+
       padding: 30px;
     }
 
@@ -27,8 +26,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
       display: grid;
     }
 
-    #logout{
-  text-align: right;
+    #logout {
+      text-align: right;
 
     }
   </style>
@@ -38,112 +37,113 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 
   <div id="container">
     <div id="logout">
-    <form th:action="@{/logout}" method="POST">
+      <form th:action="@{/logout}" method="POST">
 
-      <input type="submit" value="Logout"/>
+        <input type="submit" value="Logout" />
       </form>
-      
-    </div>
-     <span th:with="name1=${name}">
-    Welcome:- <span sec:authentication="name"></span>
-    
-     Role:- <span sec:authentication="principal.authorities"></span>
-     
-  
-       
-    <div id="content">
-      <h1>Created by:-<span th:text="${post.author}"></span></h1>
-      <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
-      <h4>Updated At:<span th:text="${post.updateDate }"></span></h4>
-      <h4>Tags::
-        <ul>
-          <h4>
-            <li th:each=" tag: ${post.tags}">
-              <span th:text="${tag.name}"></span>
-            </li>
-        </ul>
-      </h4>
 
-      </h4>
-      <h1>Content</h1>
-      <br>
-      <p><span th:text="${post.content} "></span></p>
-      <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
-      <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
-      </div>
-      
-      <div class="row" th:if="${#strings.equals(name1, post.author)}" >
-        <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
     </div>
-    <br>
-      
-    <div class="row" th:if="${#strings.equals(name1, post.author)}">
-      <form th:action="@{/update/{viewId}(viewId=${post.id})}">
-        <!-- <input type="hidden" value="${post.comments}" name="comments">-->
-        <button type="submit">Update</button>
-      </form>  </div>
-     
-    </span>
-     
+    <span th:with="name1=${name}">
+      Welcome:- <span sec:authentication="name"></span>
 
-      <br>
-      <br>
-      <td>
+      Role:- <span sec:authentication="principal.authorities"></span>
+
+
+
+      <div id="content">
+        <h1>Created by:-<span th:text="${post.author}"></span></h1>
+        <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
+        <h4>Updated At:<span th:text="${post.updateDate }"></span></h4>
+        <h4>Tags::
+          <ul>
+            <h4>
+              <li th:each=" tag: ${post.tags}">
+                <span th:text="${tag.name}"></span>
+              </li>
+          </ul>
+        </h4>
+
+        </h4>
+        <h1>Content</h1>
+        <br>
+        <p><span th:text="${post.content} "></span></p>
         <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
+          <a style="text-decoration: none;" th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
+        </div>
+
+        <div class="row" th:if="${#strings.equals(name1, post.author)}">
+          <a style="text-decoration: none;" th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
+        </div>
+        <br>
+
+        <div class="row" th:if="${#strings.equals(name1, post.author)}">
+          <form th:action="@{/update/{viewId}(viewId=${post.id})}">
+            <!-- <input type="hidden" value="${post.comments}" name="comments">-->
+            <button type="submit">Update</button>
+          </form>
+        </div>
+
+    </span>
+
+
+    <br>
+    <br>
+    <td>
+      <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
         <form th:action="@{/update/{viewId}(viewId=${post.id})}">
           <!-- <input type="hidden" value="${post.comments}" name="comments">-->
           <button type="submit">Update</button>
         </form>
-        </div>
-      </td>
-      <br>
-      <br>
-    </div>
+      </div>
+    </td>
+    <br>
+    <br>
+  </div>
 
-    <div id="content">
-      <div id="comments">
-        <div th:each=" comment: ${post.comments}">
-          <h4 th:text="${comment.name}"></h4>
-          <h4 th:text="${comment.comment}"></h4>
-          <form th:action="@{/deleteComment/{deleteId}(deleteId=${comment.id})}">
-            <input type="hidden" th:value="${post.id}" name="postId">
-            <button type="submit">Delete</button>
-          </form>
-          <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
-            <input type="hidden" th:value="${post.id}" name="postId">
-            <button type="submit">Update</button>
-          </form>
-          <br>
-        </div>
+  <div id="content">
+    <div id="comments">
+      <div th:each=" comment: ${post.comments}">
+        <h4 th:text="${comment.name}"></h4>
+        <h4 th:text="${comment.comment}"></h4>
+        <form th:action="@{/deleteComment/{deleteId}(deleteId=${comment.id})}">
+          <input type="hidden" th:value="${post.id}" name="postId">
+          <button type="submit">Delete</button>
+        </form>
+        <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
+          <input type="hidden" th:value="${post.id}" name="postId">
+          <button type="submit">Update</button>
+        </form>
+        <br>
       </div>
     </div>
+  </div>
 
-    <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comment}">
-      <form:hidden path="id" />
-      Name:
-      <br>
-      <input type="text" name="name" th:value="${comment.name}" />
-      <br>
-      Email:
-      <br>
-      <input name="email" th:value="${comment.email}" />
-      <br>
-      Comment:
-      <br>
-      <textarea name="comment" th:value="${comment.comment}"></textarea>
-      <br>
-      <form>
-        <button type="submit"> Comment</button>
-      </form>
+  <form th:action="@{/comment/{viewId}(viewId=${post.id})}" th:object="${comment}">
+    <form:hidden path="id" />
+    Name:
+    <br>
+    <input type="text" name="name" th:value="${comment.name}" />
+    <br>
+    Email:
+    <br>
+    <input name="email" th:value="${comment.email}" />
+    <br>
+    Comment:
+    <br>
+    <textarea name="comment" th:value="${comment.comment}"></textarea>
+    <br>
+    <form>
+      <button type="submit"> Comment</button>
     </form>
+  </form>
 
-    
-      </div>
+
   </div>
   </div>
+  </div>
 
 
-    
+
 </body>
 
 </html>

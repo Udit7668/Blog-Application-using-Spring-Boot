@@ -128,17 +128,19 @@
   </div>
 </div>
     </table>
-    Filter::
-    <form th:action="@{/filter}">
-      <select name="author">
-        <div th:each=" post: ${posts}">
-      <option th:value="${post.author}" th:text="${post.author}">
+
+    Filter By Author::
+  
+    <form th:action="@{/filterByAuthor}">
+        <div th:each=" author: ${authors}" th:object="${authors}">
+      <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
       </div>
-      <div th:each=" post: ${posts}">
-        <div th:each=" tag: ${post.tags}">
-         <option th:value="${tag.name}" th:text="${tag.name}"> 
+     <br>
+        Filter By Tags::
+        <form th:action="@{/filter}">
+      <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
+         <input type="checkbox" th:value="${tag}" th:text="${tag}" name="author"> 
          </option>
-        </div>
         </div>
         </select>
         <br>
