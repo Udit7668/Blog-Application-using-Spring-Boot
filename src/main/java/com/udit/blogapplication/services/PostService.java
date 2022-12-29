@@ -161,21 +161,35 @@ public class PostService {
 
    //case 3--when both tag and author is non empty
    if(authors!=null && tags!=null && date.get(0).isBlank() && date.get(1).isBlank()){
-      for(String tag:tags){
-    List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
-    for(Tag singleTag:listOfTags){
-      List<Post> listOfPosts=singleTag.getPosts();
-      for(Post post:listOfPosts){
-         if(authors.contains(post.getAuthor())){
+   //    for(String tag:tags){
+   //  List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
+   //  for(Tag singleTag:listOfTags){
+   //    List<Post> listOfPosts=singleTag.getPosts();
+   //    for(Post post:listOfPosts){
+   //       if(authors.contains(post.getAuthor())){
+   //          posts.add(post);
+   //       }
+   //    }
+   //    }
+
+   //    }
+   //    return posts;
+   
+   for(String tag:tags){
+      for(String author:authors){
+         List<Post> listOfPosts=this.postRepository.getAllPostByAuthorAndTag(author, tag);
+   
+         for(Post post:listOfPosts){
             posts.add(post);
          }
+
       }
    }
 
-      }
-
-      return posts;
+return posts;
    }
+
+
 
  
  return null;
