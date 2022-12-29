@@ -44,11 +44,11 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
       </form>
       
     </div>
-     <span th:with="name1=${name}" style="background-color: cyan;">
+     <span th:with="name1=${name}">
     Welcome:- <span sec:authentication="name"></span>
     
      Role:- <span sec:authentication="principal.authorities"></span>
-     </span>
+     
   
        
     <div id="content">
@@ -72,7 +72,7 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
       <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
       </div>
       
-      <div class="row" th:if="${#strings.equals(name1, post.author)}">
+      <div class="row" th:if="${#strings.equals(name1, post.author)}" >
         <a  style="text-decoration: none;"   th:href="@{/delete/{viewId}(viewId=${post.id})}" id="delete">Delete</a>
     </div>
     <br>
