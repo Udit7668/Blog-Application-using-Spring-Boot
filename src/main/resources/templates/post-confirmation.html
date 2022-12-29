@@ -131,7 +131,7 @@
 
     Filter By Author::
   
-    <form th:action="@{/filterByAuthor}">
+    <form th:action="@{/filter}">
         <div th:each=" author: ${authors}" th:object="${authors}">
       <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
       </div>

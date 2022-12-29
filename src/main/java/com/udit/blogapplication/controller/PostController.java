@@ -139,10 +139,19 @@ private CommentService commentService;
     }
 
     @GetMapping("/filter")
-	public String filter(@RequestParam("author") String name,Model model) {
+	public String filter(@RequestParam("author") List<String> name,Model model) {
         System.out.println(name);
-	     List<Post> posts=this.postService.getAllPostByFilter(name);
+        System.out.println("******************************");
+        
+        Set<Post> posts=this.postService.getAllPostByFilter(name);
+       // List<Post> posts=this.postService.getAllPostByFilter(name);
          model.addAttribute("posts", posts);
+
+         Set<String> listOfAuthors=this.postService.findAllAuthors();
+         Set<String> lisOfTags=this.postService.findAllTags();
+        model.addAttribute("authors", listOfAuthors);
+
+        model.addAttribute("listOfTags", lisOfTags);
 		return "post-confirmation";		
 	}
 
