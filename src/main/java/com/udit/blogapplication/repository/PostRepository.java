@@ -1,5 +1,9 @@
 package com.udit.blogapplication.repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -31,6 +35,10 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      public List<Post> getAllPostByAuthorAndTag(@Param("c") String author,
      @Param("x") String tag
      );
+
+     public List<Post> findByCreationDateBetween(Date startDate,Date endDate);
+
+    
 
     public Page<Post> findAll(Pageable pageable);
      

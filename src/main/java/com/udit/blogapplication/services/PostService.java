@@ -1,6 +1,13 @@
 package com.udit.blogapplication.services;
 
+import java.security.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,7 +137,7 @@ public class PostService {
 
    // }
 
-   public Set<Post> getAllPostByFilter(List<String> authors,List<String> tags,List<String> date) {
+   public Set<Post> getAllPostByFilter(List<String> authors,List<String> tags,List<String> date) throws ParseException {
       Set<Post> posts = new HashSet<>();
    
       //case 1 --when ony authors is present
@@ -161,39 +168,39 @@ public class PostService {
 
    //case 3--when both tag and author is non empty
    if(authors!=null && tags!=null && date.get(0).isBlank() && date.get(1).isBlank()){
-   //    for(String tag:tags){
-   //  List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
-   //  for(Tag singleTag:listOfTags){
-   //    List<Post> listOfPosts=singleTag.getPosts();
-   //    for(Post post:listOfPosts){
-   //       if(authors.contains(post.getAuthor())){
-   //          posts.add(post);
-   //       }
-   //    }
-   //    }
-
-   //    }
-   //    return posts;
-   
    for(String tag:tags){
       for(String author:authors){
          List<Post> listOfPosts=this.postRepository.getAllPostByAuthorAndTag(author, tag);
-   
          for(Post post:listOfPosts){
             posts.add(post);
          }
-
       }
    }
-
 return posts;
    }
 
 
-
- 
+   //case 4--when only date is given
+   if(authors==null && tags==null && !date.get(0).isBlank() && !date.get(1).isBlank()){
+    String[] str=date.get(0).split("-");
+      LocalDateTime startDate=LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]),0,0,0);
+      Date start=convertLocalDateTimeToDateUsingTimestamp(startDate);
+      String[] str1=date.get(1).split("-");
+      LocalDateTime endDate=LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]), Integer.parseInt(str1[2]),0,0,0);
+      Date end=convertLocalDateTimeToDateUsingTimestamp(endDate);
+      List<Post> list=this.postRepository.findByCreationDateBetween(start, end);
+    for(Post singlePost:list){
+      posts.add(singlePost);
+    }
+    return posts;
+   }
  return null;
    }
+    
+public Date convertLocalDateTimeToDateUsingTimestamp(LocalDateTime dateToConvert) {
+   return java.sql.Timestamp.valueOf(dateToConvert);
+}
+
 
    public Page<Post> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
       Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()

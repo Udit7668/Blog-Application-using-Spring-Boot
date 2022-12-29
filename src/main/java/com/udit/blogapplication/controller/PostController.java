@@ -1,5 +1,6 @@
 package com.udit.blogapplication.controller;
 
+import java.text.ParseException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -142,7 +143,7 @@ private CommentService commentService;
 	public String filter(@RequestParam(value = "author",required = false) List<String> authors,
     @RequestParam(value="Date",required = false) List<String> date,
     @RequestParam(value="tag" ,required=false) List<String> tags,
-    Model model) {
+    Model model) throws ParseException {
       System.out.println(authors);
          System.out.println(tags);
         Set<Post> posts=this.postService.getAllPostByFilter(authors,tags,date);
