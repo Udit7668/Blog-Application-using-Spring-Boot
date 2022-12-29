@@ -11,5 +11,5 @@ import com.udit.blogapplication.entities.Tag;
 public interface TagRepository extends CrudRepository<Tag,Integer>{
     
     @Query("select u from Tag u where name=:c")
-     public List<Tag> getAllPostByTag(@Param("c") String tags);
+     public List<Tag> getAllTagByTag(@Param("c") String tags);
 }

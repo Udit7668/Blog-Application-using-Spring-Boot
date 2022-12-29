@@ -81,7 +81,7 @@ public class PostService {
 
    public List<Post> getAllPostByTitle(String searchBy) {
       List<Post> posts = new ArrayList<>();
-      List<Tag> tags = this.tagRepository.getAllPostByTag(searchBy);
+      List<Tag> tags = this.tagRepository.getAllTagByTag(searchBy);
       System.out.println(tags);
       if (!tags.isEmpty()) {
          for (Tag tag : tags) {
@@ -98,36 +98,70 @@ public class PostService {
       return posts;
    }
 
-     public Set<Post> getAllPostByFilter(List<String> searchBy) {
-      Set<Post> posts = new HashSet<>();
+   //   public Set<Post> getAllPostByFilter(List<String> searchBy) {
+   //    Set<Post> posts = new HashSet<>();
 
-      Set<String> listOfAuthors = this.findAllAuthors();
-      for (String author : searchBy) {
-         if (listOfAuthors.contains(author)) {
+   //    Set<String> listOfAuthors = this.findAllAuthors();
+   //    for (String author : searchBy) {
+   //       if (listOfAuthors.contains(author)) {
+   //          List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(author);
+   //          for (Post post : listOfPosts) {
+   //             posts.add(post);
+   //          }
+   //       }
+   //    }
+
+   //    Set<String> lisOfTags = this.findAllTags();
+   //    for (String tag : searchBy) {
+   //       if (lisOfTags.contains(tag)) {
+   //          List<Tag> tags = this.tagRepository.getAllPostByTag(tag);
+   //          for (Tag single : tags) {
+   //             if (single.getName().equalsIgnoreCase(tag)) {
+   //                List<Post> listOfPost = single.getPosts();
+   //                for (Post post : listOfPost) {
+   //                   posts.add(post);
+   //                }
+   //             }
+   //          }
+   //       }
+   //    }
+
+   //    return posts;
+
+   // }
+
+   public Set<Post> getAllPostByFilter(List<String> authors,List<String> tags,List<String> date) {
+      Set<Post> posts = new HashSet<>();
+   
+      //case 1 --when ony authors is present
+      if(authors!=null && tags==null && date.get(0).isBlank() && date.get(1).isBlank()){
+      for (String author : authors) {
             List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(author);
             for (Post post : listOfPosts) {
-               posts.add(post);
-            }
+               posts.add(post);   
          }
       }
-
-      Set<String> lisOfTags = this.findAllTags();
-      for (String tag : searchBy) {
-         if (lisOfTags.contains(tag)) {
-            List<Tag> tags = this.tagRepository.getAllPostByTag(tag);
-            for (Tag single : tags) {
-               if (single.getName().equalsIgnoreCase(tag)) {
-                  List<Post> listOfPost = single.getPosts();
-                  for (Post post : listOfPost) {
-                     posts.add(post);
-                  }
-               }
-            }
-         }
-      }
-
       return posts;
+   }
 
+
+   //case 2 when only tags is present
+   if(authors==null && tags!=null && date.get(0).isBlank() && date.get(1).isBlank()){
+     for(String tag:tags){
+      List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
+      for(Tag singleTag: listOfTags){
+      List<Post> listPosts=singleTag.getPosts();
+      for(Post post:listPosts){
+         posts.add(post);
+      }
+      }
+     }
+     return posts;
+   }
+
+
+ 
+ return null;
    }
 
    public Page<Post> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {

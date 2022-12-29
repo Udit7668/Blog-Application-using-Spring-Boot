@@ -139,16 +139,13 @@ private CommentService commentService;
     }
 
     @GetMapping("/filter")
-	public String filter(@RequestParam("author") List<String> name,
-    @RequestParam("startDate") String startDate,
-    @RequestParam("endDate") String endDate,
-    @RequestParam("tag") String tag,
+	public String filter(@RequestParam(value = "author",required = false) List<String> authors,
+    @RequestParam(value="Date",required = false) List<String> date,
+    @RequestParam(value="tag" ,required=false) List<String> tags,
     Model model) {
-  
-        System.out.println(startDate);
-        System.out.println(endDate);
-
-        Set<Post> posts=this.postService.getAllPostByFilter(name);
+      System.out.println(authors);
+         System.out.println(tags);
+        Set<Post> posts=this.postService.getAllPostByFilter(authors,tags,date);
        // List<Post> posts=this.postService.getAllPostByFilter(name);
          model.addAttribute("posts", posts);
 

@@ -130,15 +130,16 @@
          <br>
             Filter By Tags::
             <form th:action="@{/filter}">
-          <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
+              
+              <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
              <input type="checkbox" th:value="${tag}" th:text="${tag}" name="tag"> 
              </option>
             </div>
             </select>
             <br>
-    <input type="date" name="startDate" >
+    <input type="date" name="Date" >
     <br>
-    <input type="date" name="endDate" >
+    <input type="date" name="Date" >
     <br>
         <input type="submit" value="Filter">
             </form>
