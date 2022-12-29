@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.udit.blogapplication.entities.Comment;
 import com.udit.blogapplication.entities.Post;
 import com.udit.blogapplication.entities.Tag;
+import com.udit.blogapplication.entities.User;
 import com.udit.blogapplication.services.CommentService;
 import com.udit.blogapplication.services.PostService;
 
@@ -44,11 +46,11 @@ private CommentService commentService;
     }
 
     @GetMapping("/")
-	public String showAllPost(Model model) {
+	public String showAllPost(Model model,Authentication authentication) {
 	    // List<Post> posts= this.postService.getAllPost();
 	    // model.addAttribute("posts",posts);
 		// return "post-confirmation";
-      return  findPaginated(1,"title" ,"asc" ,model);
+      return  findPaginated(1,"title" ,"asc",model);
 	}
 
     @GetMapping("/delete/{viewId}")
@@ -59,9 +61,8 @@ private CommentService commentService;
 	}
 
     @GetMapping("/view/{viewId}")
-	public String viewPost(@PathVariable("viewId") Integer id,Model model){
+	public String viewPost(@PathVariable("viewId") Integer id,Model model,Authentication authentication){
 		Post post=this.postService.getPostById(id);
-    
 		model.addAttribute("post",post);
 		Comment comment=new Comment();
 		model.addAttribute("comment",comment);
@@ -111,6 +112,7 @@ private CommentService commentService;
     @GetMapping("/updateComment/{updateId}")
 	public String updateComment(@PathVariable("updateId") Integer commentId,@RequestParam("postId") Integer postId,Model model) {
 	    Comment comment=this.commentService.getCommentById(commentId);
+
        this.postService.deleteComment(commentId, postId);
        model.addAttribute("comment", comment);
        Post post=this.postService.getPostById(postId);

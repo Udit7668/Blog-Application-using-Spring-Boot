@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous">
   <style type="text/css">
     #container {
       
@@ -13,7 +17,7 @@
       margin-right: 400px;
       margin-top: 20px;
       border: 2px solid black;
-      height: 900px;
+    
       padding: 30px;
     }
 
@@ -22,13 +26,31 @@
       padding: 10px;
       display: grid;
     }
+
+    #logout{
+  text-align: right;
+
+    }
   </style>
 </head>
 
 <body>
 
   <div id="container">
+    <div id="logout">
+    <form th:action="@{/logout}" method="POST">
 
+      <input type="submit" value="Logout"/>
+      </form>
+      
+    
+       <span sec:authentication="name"></span>
+      <span sec:authentication="principal.authorities"></span>
+       </div>
+    <div class="row" th:if="${#request.isUserInRole('AUTHOR')}">
+      <h2>This will only be displayed if authenticated user has role ROLE_SUPERUSER.</h2>
+  </div>
+     
     <div id="content">
       <h1>Created by:-<span th:text="${post.author}"></span></h1>
       <h3>Created At:-<span th:text="${post.creationDate}"></span></h3>
@@ -98,15 +120,12 @@
       </form>
     </form>
 
+    
       </div>
   </div>
   </div>
 
 
-  <form th:action="@{/logout}" method="POST">
-
-    <input type="submit" value="Logout"/>
-    </form>
     
 </body>
 

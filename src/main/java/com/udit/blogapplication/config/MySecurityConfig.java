@@ -44,9 +44,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customeUserDetailService).passwordEncoder(passwordEncoder());
-    //    auth.inMemoryAuthentication().withUser("Udit").password(this.passwordEncoder().encode("123")).roles("NORMAL");
-    //    auth.inMemoryAuthentication().withUser("Amrit").password(this.passwordEncoder().encode("123")).roles("ADMIN");
-    }
+        }
     
     @Bean
     public PasswordEncoder passwordEncoder(){

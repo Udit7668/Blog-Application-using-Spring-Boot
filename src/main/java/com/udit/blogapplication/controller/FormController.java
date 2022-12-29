@@ -21,6 +21,7 @@ public class FormController {
     return "login";
     }
 
+   
     @GetMapping("/register")
     public String register(Model model){
     User user=new User();
