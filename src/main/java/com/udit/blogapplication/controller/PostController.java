@@ -140,9 +140,7 @@ private CommentService commentService;
 
     @GetMapping("/filter")
 	public String filter(@RequestParam("author") List<String> name,Model model) {
-        System.out.println(name);
-        System.out.println("******************************");
-        
+  
         Set<Post> posts=this.postService.getAllPostByFilter(name);
        // List<Post> posts=this.postService.getAllPostByFilter(name);
          model.addAttribute("posts", posts);
@@ -179,8 +177,6 @@ private CommentService commentService;
          model.addAttribute("listOfTags", lisOfTags);
            model.addAttribute("posts", listOfPosts);
         return "post-confirmation";
-
-
     }
 
 

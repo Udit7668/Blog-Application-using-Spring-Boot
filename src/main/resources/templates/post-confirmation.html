@@ -41,6 +41,27 @@
         background-color: cyan;
         text-align: center;
       }
+
+      .float-container {
+     display: inline-block;
+    
+    column-gap: 20px;
+    padding: 20px;
+}
+
+.float-child {
+  margin: 20px;
+    width: 40%;
+    border: 2px solid black;;
+    float: left;
+    height: 200px;;
+    padding: 20px;
+    
+}  
+
+#filter{
+
+}
       </style>
       <link rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -144,7 +165,11 @@
         </div>
         </select>
         <br>
-        <input type="submit" value="Filter">
+<input type="date" name="startDate" >
+<br>
+<input type="date" name="endDate" >
+<br>
+    <input type="submit" value="Filter">
         </form>
 
 
@@ -171,6 +196,52 @@
 			</div>
 		</div>
     
+
+
+
+    <div class="float-container">
+   
+      <div class="float-child green" th:each=" post: ${posts}">
+          
+        <h3 th:text="${post.title}"></h3>
+             <span th:text="${post.excrept}"></span>
+             <span th:text="${post.isPublished}"></span>
+             <br>
+               <span th:text="${post.author}"></span>
+               <td>
+                <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
+                   </td>
+          
+      </div>
+
+      <div id="filter">
+
+        Filter By Author::
+  
+        <form th:action="@{/filter}">
+            <div th:each=" author: ${authors}" th:object="${authors}">
+          <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
+          </div>
+         <br>
+            Filter By Tags::
+            <form th:action="@{/filter}">
+          <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
+             <input type="checkbox" th:value="${tag}" th:text="${tag}" name="author"> 
+             </option>
+            </div>
+            </select>
+            <br>
+    <input type="date" name="startDate" >
+    <br>
+    <input type="date" name="endDate" >
+    <br>
+        <input type="submit" value="Filter">
+            </form>
+    
+
+      </div>
+       
+    </div>
 
 </body>
 </html>
