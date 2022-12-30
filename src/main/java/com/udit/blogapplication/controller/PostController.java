@@ -142,8 +142,8 @@ private CommentService commentService;
     public String searchPosts(@RequestParam("title") String searchBy,Model model){
         List<Post> posts=this.postService.getAllPostByTitle(searchBy);
 
-        Set<String> listOfAuthors=this.postService.findAllAuthors();
-        Set<String> lisOfTags=this.postService.findAllTags();
+        Set<String> listOfAuthors=this.postService.getAllAuthorsByPost(posts);
+        Set<String> lisOfTags=this.postService.getAllTagsByAuthorsAndPost(posts, listOfAuthors);
        model.addAttribute("authors", listOfAuthors);
 
        model.addAttribute("listOfTags", lisOfTags);

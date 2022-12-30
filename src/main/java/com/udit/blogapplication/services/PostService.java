@@ -269,4 +269,36 @@ public class PostService {
       return listOfTags;
    }
 
+
+
+   public List<String> getAllAuthorByAuthorAndTag(String searchBy){
+    List<String> listOfAuthors=this.postRepository.getAllAuthorByAuthorAndTag(searchBy);
+      return listOfAuthors;
+   }
+
+
+   public Set<String> getAllAuthorsByPost(List<Post> posts){
+    Set<String> authors=new HashSet<>();
+    for(Post post:posts){
+      authors.add(post.getAuthor());
+    }
+      return authors;
+   }
+
+
+   public Set<String> getAllTagsByAuthorsAndPost(List<Post> posts,Set<String> authors){
+    Set<String> tags=new HashSet<>();
+    for(Post post:posts){
+      if(authors.contains(post.getAuthor())){
+        List<Tag> listOfTags=post.getTags();
+     for(Tag tag:listOfTags){
+       tags.add(tag.getName());
+     }
+
+      }
+    }
+
+      return tags;
+   }
+
 }

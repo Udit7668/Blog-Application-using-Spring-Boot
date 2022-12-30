@@ -35,7 +35,10 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
      public List<Post> findByCreationDateBetween(Date startDate,Date endDate);
 
-    
+
+     @Query(value = "select u.author from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c or t.name=:c or u.title:c or u.author=:c or u.content:c",nativeQuery = true)
+     public List<String> getAllAuthorByAuthorAndTag(@Param("c") String author
+     );
 
     public Page<Post> findAll(Pageable pageable);
      
