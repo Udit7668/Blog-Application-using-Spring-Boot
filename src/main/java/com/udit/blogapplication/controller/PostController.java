@@ -129,12 +129,24 @@ private CommentService commentService;
 	public String sortPosts(@RequestParam("sortby") String sortBy,Model model) {
 		List<Post> posts=this.postService.sortPost(sortBy);
 		model.addAttribute("posts",posts);
+
+        Set<String> listOfAuthors=this.postService.findAllAuthors();
+        Set<String> lisOfTags=this.postService.findAllTags();
+       model.addAttribute("authors", listOfAuthors);
+
+       model.addAttribute("listOfTags", lisOfTags);
 		return "post-confirmation";	
     }
 
     @GetMapping("/search")
     public String searchPosts(@RequestParam("title") String searchBy,Model model){
         List<Post> posts=this.postService.getAllPostByTitle(searchBy);
+
+        Set<String> listOfAuthors=this.postService.findAllAuthors();
+        Set<String> lisOfTags=this.postService.findAllTags();
+       model.addAttribute("authors", listOfAuthors);
+
+       model.addAttribute("listOfTags", lisOfTags);
         model.addAttribute("posts",posts);
         return "post-confirmation";
     }

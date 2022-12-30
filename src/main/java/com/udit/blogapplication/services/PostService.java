@@ -100,148 +100,148 @@ public class PostService {
       posts = this.postRepository.getAllPostByTitle(searchBy);
       return posts;
    }
-
-   //   public Set<Post> getAllPostByFilter(List<String> searchBy) {
-   //    Set<Post> posts = new HashSet<>();
-
-   //    Set<String> listOfAuthors = this.findAllAuthors();
-   //    for (String author : searchBy) {
-   //       if (listOfAuthors.contains(author)) {
-   //          List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(author);
-   //          for (Post post : listOfPosts) {
-   //             posts.add(post);
-   //          }
-   //       }
-   //    }
-
-   //    Set<String> lisOfTags = this.findAllTags();
-   //    for (String tag : searchBy) {
-   //       if (lisOfTags.contains(tag)) {
-   //          List<Tag> tags = this.tagRepository.getAllPostByTag(tag);
-   //          for (Tag single : tags) {
-   //             if (single.getName().equalsIgnoreCase(tag)) {
-   //                List<Post> listOfPost = single.getPosts();
-   //                for (Post post : listOfPost) {
-   //                   posts.add(post);
-   //                }
-   //             }
-   //          }
-   //       }
-   //    }
-
-   //    return posts;
-
-   // }
-
-   public Set<Post> getAllPostByFilter(List<String> authors,List<String> tags,List<String> date) throws ParseException {
+   public Set<Post> getAllPostByFilter(List<String> authors, List<String> tags, List<String> date)
+         throws ParseException {
       Set<Post> posts = new HashSet<>();
-   
-      //case 1 --when ony authors is present
-      if(authors!=null && tags==null && date.get(0).isBlank() && date.get(1).isBlank()){
-      for (String author : authors) {
+
+      // case 1 --when ony authors is present
+      if (authors != null && tags == null && date.get(0).isBlank() && date.get(1).isBlank()) {
+         for (String author : authors) {
             List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(author);
             for (Post post : listOfPosts) {
-               posts.add(post);   
-         }
-      }
-      return posts;
-   }
-
-
-   //case 2 when only tags is present
-   if(authors==null && tags!=null && date.get(0).isBlank() && date.get(1).isBlank()){
-     for(String tag:tags){
-      List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
-      for(Tag singleTag: listOfTags){
-      List<Post> listPosts=singleTag.getPosts();
-      for(Post post:listPosts){
-         posts.add(post);
-      }
-      }
-     }
-     return posts;
-   }
-
-   //case 3--when both tag and author is non empty
-   if(authors!=null && tags!=null && date.get(0).isBlank() && date.get(1).isBlank()){
-   for(String tag:tags){
-      for(String author:authors){
-         List<Post> listOfPosts=this.postRepository.getAllPostByAuthorAndTag(author, tag);
-         for(Post post:listOfPosts){
-            posts.add(post);
-         }
-      }
-   }
-return posts;
-   }
-
-
-   //case 4--when only date is given
-   if(authors==null && tags==null && !date.get(0).isBlank() && !date.get(1).isBlank()){
-    String[] str=date.get(0).split("-");
-      LocalDateTime startDate=LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]),0,0,0);
-      Date start=convertLocalDateTimeToDateUsingTimestamp(startDate);
-      String[] str1=date.get(1).split("-");
-      LocalDateTime endDate=LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]), Integer.parseInt(str1[2]),0,0,0);
-      Date end=convertLocalDateTimeToDateUsingTimestamp(endDate);
-      List<Post> list=this.postRepository.findByCreationDateBetween(start, end);
-    for(Post singlePost:list){
-      posts.add(singlePost);
-    }
-    return posts;
-   }
-
-
-   //case 5--when author and date is given
-   if(authors!=null && tags==null && !date.get(0).isBlank() && !date.get(1).isBlank()){
-      String[] str=date.get(0).split("-");
-        LocalDateTime startDate=LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]),0,0,0);
-        Date start=convertLocalDateTimeToDateUsingTimestamp(startDate);
-        String[] str1=date.get(1).split("-");
-        LocalDateTime endDate=LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]), Integer.parseInt(str1[2]),0,0,0);
-        Date end=convertLocalDateTimeToDateUsingTimestamp(endDate);
-        List<Post> list=this.postRepository.findByCreationDateBetween(start, end);
-      for(Post singlePost:list){
-         for(String author:authors){
-            if(singlePost.getAuthor().equals(author)){
-        posts.add(singlePost);
+               posts.add(post);
             }
          }
+         return posts;
       }
-      return posts;
-     }
 
-    //case 6--when tags and date is given
-    if(authors==null && tags!=null && !date.get(0).isBlank() && !date.get(1).isBlank()){
-      String[] str=date.get(0).split("-");
-        LocalDateTime startDate=LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]), Integer.parseInt(str[2]),0,0,0);
-        Date start=convertLocalDateTimeToDateUsingTimestamp(startDate);
-        String[] str1=date.get(1).split("-");
-        LocalDateTime endDate=LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]), Integer.parseInt(str1[2]),0,0,0);
-        Date end=convertLocalDateTimeToDateUsingTimestamp(endDate);
-        List<Post> list=this.postRepository.findByCreationDateBetween(start, end);
-      for(Post singlePost:list){
-         for(String tag:tags){
-       List<Tag> listOfTags=this.tagRepository.getAllTagByTag(tag);
-      for(Tag singleTag: listOfTags){
-       if(singleTag.getName().equals(tag)){
-         for(Post single:singleTag.getPosts()){
-            posts.add(single);
+      // case 2 when only tags is present
+      if (authors == null && tags != null && date.get(0).isBlank() && date.get(1).isBlank()) {
+         for (String tag : tags) {
+            List<Tag> listOfTags = this.tagRepository.getAllTagByTag(tag);
+            for (Tag singleTag : listOfTags) {
+               List<Post> listPosts = singleTag.getPosts();
+               for (Post post : listPosts) {
+                  posts.add(post);
+               }
+            }
          }
+         return posts;
       }
-      }
-         }
-      }
-      return posts;
-     }
 
- return null;
+      // case 3--when both tag and author is non empty
+      if (authors != null && tags != null && date.get(0).isBlank() && date.get(1).isBlank()) {
+         for (String tag : tags) {
+            for (String author : authors) {
+               List<Post> listOfPosts = this.postRepository.getAllPostByAuthorAndTag(author, tag);
+               for (Post post : listOfPosts) {
+                  posts.add(post);
+               }
+            }
+         }
+         return posts;
+      }
+
+      // case 4--when only date is given
+      if (authors == null && tags == null && !date.get(0).isBlank() && !date.get(1).isBlank()) {
+         String[] str = date.get(0).split("-");
+         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+               Integer.parseInt(str[2]), 0, 0, 0);
+         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+         String[] str1 = date.get(1).split("-");
+         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+               Integer.parseInt(str1[2]), 0, 0, 0);
+         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
+         for (Post singlePost : list) {
+            posts.add(singlePost);
+         }
+         return posts;
+      }
+
+      // case 5--when author and date is given
+      if (authors != null && tags == null && !date.get(0).isBlank() && !date.get(1).isBlank()) {
+         String[] str = date.get(0).split("-");
+         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+               Integer.parseInt(str[2]), 0, 0, 0);
+         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+         String[] str1 = date.get(1).split("-");
+         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+               Integer.parseInt(str1[2]), 0, 0, 0);
+         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
+         for (Post singlePost : list) {
+            for (String author : authors) {
+               if (singlePost.getAuthor().equals(author)) {
+                  posts.add(singlePost);
+               }
+            }
+         }
+         return posts;
+      }
+
+      // case 6--when tags and date is given
+      if (authors == null && tags != null && !date.get(0).isBlank() && !date.get(1).isBlank()) {
+         String[] str = date.get(0).split("-");
+         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+               Integer.parseInt(str[2]), 0, 0, 0);
+         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+         String[] str1 = date.get(1).split("-");
+         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+               Integer.parseInt(str1[2]), 0, 0, 0);
+         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
+         for (Post singlePost : list) {
+
+            for (String tag : tags) {
+
+               List<Tag> listOfTags = this.tagRepository.getAllTagByTag(tag);
+               for (Tag singleTag : listOfTags) {
+                  if (singleTag.getName().equals(tag)) {
+                     for (Post single : singleTag.getPosts()) {
+                        posts.add(single);
+                     }
+                  }
+               }
+            }
+         }
+         return posts;
+      }
+
+      // when all three are given
+
+      // case 6--when tags and date is given
+      if (authors != null && tags != null && !date.get(0).isBlank() && !date.get(1).isBlank()) {
+         String[] str = date.get(0).split("-");
+         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+               Integer.parseInt(str[2]), 0, 0, 0);
+         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+         String[] str1 = date.get(1).split("-");
+         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+               Integer.parseInt(str1[2]), 0, 0, 0);
+         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
+         for (Post singlePost : list) {
+            if (authors.contains(singlePost.getAuthor())) {
+               for (String singletag : tags) {
+                  for (Tag singleTag : singlePost.getTags()) {
+                     if (singleTag.getName().equals(singletag)) {
+                        posts.add(singlePost);
+                     }
+                  }
+
+               }
+            }
+         }
+         return posts;
+      }
+
+      return null;
    }
-    
-public Date convertLocalDateTimeToDateUsingTimestamp(LocalDateTime dateToConvert) {
-   return java.sql.Timestamp.valueOf(dateToConvert);
-}
 
+   public Date convertLocalDateTimeToDateUsingTimestamp(LocalDateTime dateToConvert) {
+      return java.sql.Timestamp.valueOf(dateToConvert);
+   }
 
    public Page<Post> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
       Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()

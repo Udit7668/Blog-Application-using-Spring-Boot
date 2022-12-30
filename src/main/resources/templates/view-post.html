@@ -83,7 +83,7 @@
           </form>
         </div>
 
-    </span>
+    
 
 
     <br>
@@ -105,14 +105,37 @@
       <div th:each=" comment: ${post.comments}">
         <h4 th:text="${comment.name}"></h4>
         <h4 th:text="${comment.comment}"></h4>
+
+        <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
         <form th:action="@{/deleteComment/{deleteId}(deleteId=${comment.id})}">
           <input type="hidden" th:value="${post.id}" name="postId">
           <button type="submit">Delete</button>
         </form>
+      </div>
+      <div class="row" th:if="${#strings.equals(name1, post.author)}">
+        <form th:action="@{/deleteComment/{deleteId}(deleteId=${comment.id})}">
+          <input type="hidden" th:value="${post.id}" name="postId">
+          <button type="submit">Delete</button>
+        </form>
+       </div>
+
+
+      <div class="row" th:if="${#request.isUserInRole('ADMIN')}">
         <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
           <input type="hidden" th:value="${post.id}" name="postId">
           <button type="submit">Update</button>
         </form>
+
+        </div>
+
+        <div class="row" th:if="${#strings.equals(name1, post.author)}">
+        <form th:action="@{/updateComment/{updateId}(updateId=${comment.id})}">
+          <input type="hidden" th:value="${post.id}" name="postId">
+          <button type="submit">Update</button>
+        </form>
+</div>
+
+      </span>
         <br>
       </div>
     </div>
