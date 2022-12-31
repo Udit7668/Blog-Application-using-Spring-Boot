@@ -1,7 +1,6 @@
 package com.udit.blogapplication.controller;
 
 import java.text.ParseException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -49,9 +48,6 @@ private CommentService commentService;
 
     @GetMapping("/")
 	public String showAllPost(Model model,Authentication authentication) {
-	    // List<Post> posts= this.postService.getAllPost();
-	    // model.addAttribute("posts",posts);
-		// return "post-confirmation";
       return  findPaginated(1,"title" ,"asc",model);
 	}
 
@@ -126,10 +122,11 @@ private CommentService commentService;
 	
 
     @GetMapping("/sort")
-	public String sortPosts(@RequestParam("sortby") String sortBy,Model model) {
+	public String sortPosts(@RequestParam("sortby") String sortBy,Model model ) {
+       
 		List<Post> posts=this.postService.sortPost(sortBy);
 		model.addAttribute("posts",posts);
-
+        
         Set<String> listOfAuthors=this.postService.findAllAuthors();
         Set<String> lisOfTags=this.postService.findAllTags();
        model.addAttribute("authors", listOfAuthors);
@@ -159,9 +156,7 @@ private CommentService commentService;
       System.out.println(authors);
          System.out.println(tags);
         Set<Post> posts=this.postService.getAllPostByFilter(authors,tags,date);
-       // List<Post> posts=this.postService.getAllPostByFilter(name);
          model.addAttribute("posts", posts);
-
          Set<String> listOfAuthors=this.postService.findAllAuthors();
          Set<String> lisOfTags=this.postService.findAllTags();
         model.addAttribute("authors", listOfAuthors);

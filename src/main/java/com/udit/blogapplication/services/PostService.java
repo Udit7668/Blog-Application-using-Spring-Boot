@@ -72,12 +72,13 @@ public class PostService {
    }
 
    public List<Post> sortPost(String sortBy) {
-      List<Post> posts;
+     List<Post> posts;
       if (sortBy.equalsIgnoreCase("asc")) {
          posts = this.postRepository.getAllPostOrderAsc(sortBy);
       } else {
          posts = this.postRepository.getAllPostOrderDesc(sortBy);
       }
+
       return posts;
 
    }
