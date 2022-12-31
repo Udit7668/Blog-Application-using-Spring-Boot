@@ -129,6 +129,12 @@ private CommentService commentService;
         System.out.println(postId);
 		List<Post> posts=this.postService.sortPost(sortBy,postId);
 		model.addAttribute("posts",posts);
+
+        String postid="";
+        for(Post post:posts){
+          postid=postid+String.valueOf(post.getId())+",";
+        }
+        model.addAttribute("postId", postid);
         
         Set<String> listOfAuthors=this.postService.findAllAuthors();
         Set<String> lisOfTags=this.postService.findAllTags();
