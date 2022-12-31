@@ -31,13 +31,18 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      @Query("select u FROM Post u where u.author in :c")
      public List<Post> getAllPostByAuthor(@Param("c")  List<String> authors);
 
+     @Query(value="select * FROM post u where u.author in :c and u.created_at between :s and :e",nativeQuery = true)
+     public List<Post> getAllPostByAuthorAndCreationDateBetween(@Param("c")  List<String> authors,@Param("s") Date startDate,@Param("e") Date endDate);
+
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x",nativeQuery = true)
      public List<Post> getAllPostByTag( @Param("x") List<String> tags);
 
+
+     @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x and u.created_at between :s and :e",nativeQuery = true)
+     public List<Post> getAllPostByTagAndCreationDateBetween(@Param("x") List<String> tags,@Param("s") Date startDate,@Param("e") Date endDate);
+
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c and t.name=:x",nativeQuery = true)
-     public List<Post> getAllPostByAuthorAndTag(@Param("c") String author,
-     @Param("x") String tag
-     );
+     public List<Post> getAllPostByAuthorAndTag(@Param("c") String author,@Param("x") String tag);
 
      public List<Post> findByCreationDateBetween(Date startDate,Date endDate);
 

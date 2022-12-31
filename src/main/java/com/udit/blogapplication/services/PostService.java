@@ -181,14 +181,8 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
-         for (Post singlePost : list) {
-            for (String author : authors) {
-               if (singlePost.getAuthor().equals(author)) {
-                  posts.add(singlePost);
-               }
-            }
-         }
+         List<Post> listOfPosts=this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end);
+         posts=new HashSet<>(listOfPosts);
          return posts;
       }
 
@@ -202,27 +196,12 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
-         for (Post singlePost : list) {
-
-            for (String tag : tags) {
-
-               List<Tag> listOfTags = this.tagRepository.getAllTagByTag(tag);
-               for (Tag singleTag : listOfTags) {
-                  if (singleTag.getName().equals(tag)) {
-                     for (Post single : singleTag.getPosts()) {
-                        posts.add(single);
-                     }
-                  }
-               }
-            }
-         }
+         List<Post> listOfPosts=this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
+         posts=new HashSet<>(listOfPosts);
          return posts;
       }
 
       // when all three are given
-
-      // case 6--when tags and date is given
       if (authors != null && tags != null && !date.get(0).isBlank() && !date.get(1).isBlank()) {
          String[] str = date.get(0).split("-");
          LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
@@ -232,19 +211,12 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         List<Post> list = this.postRepository.findByCreationDateBetween(start, end);
-         for (Post singlePost : list) {
-            if (authors.contains(singlePost.getAuthor())) {
-               for (String singletag : tags) {
-                  for (Tag singleTag : singlePost.getTags()) {
-                     if (singleTag.getName().equals(singletag)) {
-                        posts.add(singlePost);
-                     }
-                  }
-
-               }
-            }
-         }
+       List<Post> listOfPosts=this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
+   for(Post post:listOfPosts){
+      if(authors.contains(post.getAuthor())){
+         posts.add(post);
+      }
+   }
          return posts;
       }
 
