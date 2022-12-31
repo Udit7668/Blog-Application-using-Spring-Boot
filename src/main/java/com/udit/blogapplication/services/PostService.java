@@ -129,26 +129,15 @@ public class PostService {
 
       // case 1 --when ony authors is present
       if (authors != null && tags == null && date.get(0).isBlank() && date.get(1).isBlank()) {
-         for (String author : authors) {
-            List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(author);
-            for (Post post : listOfPosts) {
-               posts.add(post);
-            }
-         }
+         List<Post> listOfPosts=this.postRepository.getAllPostByAuthor(authors);
+         posts=new HashSet<>(listOfPosts);
          return posts;
       }
 
       // case 2 when only tags is present
       if (authors == null && tags != null && date.get(0).isBlank() && date.get(1).isBlank()) {
-         for (String tag : tags) {
-            List<Tag> listOfTags = this.tagRepository.getAllTagByTag(tag);
-            for (Tag singleTag : listOfTags) {
-               List<Post> listPosts = singleTag.getPosts();
-               for (Post post : listPosts) {
-                  posts.add(post);
-               }
-            }
-         }
+         List<Post> lisOfPosts=this.postRepository.getAllPostByTag(tags);
+         posts=new HashSet<>(lisOfPosts);
          return posts;
       }
 

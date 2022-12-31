@@ -122,7 +122,7 @@
         Filter By Author::
   
         <form th:action="@{/filter}">
-          <input type="hidden" th:value="${authors}" name="udit"></h1>
+       
             <div th:each=" author: ${authors}" th:object="${authors}">
           <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
           </div>

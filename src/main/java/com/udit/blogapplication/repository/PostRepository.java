@@ -28,6 +28,12 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      @Query("select u FROM Post u where u.author=:c")
      public List<Post> getAllPostByAuthor(@Param("c") String filterBy);
 
+     @Query("select u FROM Post u where u.author in :c")
+     public List<Post> getAllPostByAuthor(@Param("c")  List<String> authors);
+
+     @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x",nativeQuery = true)
+     public List<Post> getAllPostByTag( @Param("x") List<String> tags);
+
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c and t.name=:x",nativeQuery = true)
      public List<Post> getAllPostByAuthorAndTag(@Param("c") String author,
      @Param("x") String tag
