@@ -122,9 +122,12 @@ private CommentService commentService;
 	
 
     @GetMapping("/sort")
-	public String sortPosts(@RequestParam("sortby") String sortBy,Model model ) {
+	public String sortPosts(@RequestParam("sortby") String sortBy,Model model
+    ,@RequestParam("postId") String postId
+    ) {
        
-		List<Post> posts=this.postService.sortPost(sortBy);
+        System.out.println(postId);
+		List<Post> posts=this.postService.sortPost(sortBy,postId);
 		model.addAttribute("posts",posts);
         
         Set<String> listOfAuthors=this.postService.findAllAuthors();
@@ -153,9 +156,13 @@ private CommentService commentService;
     @RequestParam(value="Date",required = false) List<String> date,
     @RequestParam(value="tag" ,required=false) List<String> tags,
     Model model) throws ParseException {
-      System.out.println(authors);
-         System.out.println(tags);
         Set<Post> posts=this.postService.getAllPostByFilter(authors,tags,date);
+
+         String postId="";
+         for(Post post:posts){
+           postId=postId+String.valueOf(post.getId())+",";
+         }
+         model.addAttribute("postId", postId);
          model.addAttribute("posts", posts);
          Set<String> listOfAuthors=this.postService.findAllAuthors();
          Set<String> lisOfTags=this.postService.findAllTags();

@@ -71,13 +71,35 @@ public class PostService {
       this.commentRespository.delete(comment);
    }
 
-   public List<Post> sortPost(String sortBy) {
+   public List<Post> sortPost(String sortBy,String postId) {
+      if(!postId.isBlank()){
+      String id[]=postId.split(",");
+      List<Integer> listOfPostId=new ArrayList<>();
+      for(String singleId:id){
+      listOfPostId.add(Integer.parseInt(singleId));
+      }
+      List<Post> listOfPosts=new ArrayList<>();
+      List<Post> posts;
+      if (sortBy.equalsIgnoreCase("asc")) {
+         posts = this.postRepository.getAllPostOrderAsc(sortBy);
+      } else {
+         posts = this.postRepository.getAllPostOrderDesc(sortBy);
+      }
+      for(Post post:posts){
+   if(listOfPostId.contains(post.getId())){
+      listOfPosts.add(post);
+   }
+      }
+ return listOfPosts;
+
+   }
      List<Post> posts;
       if (sortBy.equalsIgnoreCase("asc")) {
          posts = this.postRepository.getAllPostOrderAsc(sortBy);
       } else {
          posts = this.postRepository.getAllPostOrderDesc(sortBy);
       }
+
 
       return posts;
 
