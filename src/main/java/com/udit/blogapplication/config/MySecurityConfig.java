@@ -21,7 +21,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.
+        http.csrf().disable().
         authorizeRequests()
         .antMatchers("/","/login","/register","/createUser","/filter","/search","/sort","/page/**","/filter/search","/getPosts/**").permitAll()
         .anyRequest()
@@ -36,7 +36,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         .permitAll()
         .and()
         .exceptionHandling()
-        .accessDeniedPage("/access-denied");
+        .accessDeniedPage("/access-denied")
+        ;
 
     
     }
