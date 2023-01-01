@@ -1,6 +1,8 @@
 package com.udit.blogapplication.controller;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -144,6 +146,7 @@ public class PostController {
     public String searchPosts(@RequestParam("title") String searchBy, Model model) {
         List<Post> posts = this.postService.getAllPostByTitle(searchBy);
 
+        model.addAttribute("searchBy", searchBy);
         Set<String> listOfAuthors = this.postService.getAllAuthorsByPost(posts);
         Set<String> lisOfTags = this.postService.getAllTagsByAuthorsAndPost(posts, listOfAuthors);
         model.addAttribute("authors", listOfAuthors);
@@ -157,13 +160,25 @@ public class PostController {
     public String filter(@RequestParam(value = "author", required = false) List<String> authors,
             @RequestParam(value = "Date", required = false) List<String> date,
             @RequestParam(value = "tag", required = false) List<String> tags,
+            @RequestParam(value = "searchBy",required = false) String searchBy,
             Model model) throws ParseException {
-        Set<Post> posts = this.postService.getAllPostByFilter(authors, tags, date);
+    
+           Set<Post>  posts=new HashSet<>();  
+           if(searchBy.isBlank()){
+           posts= this.postService.getAllPostByFilter(authors, tags, date);
+           }
+           else{
+            authors=new ArrayList<>();
+            authors.add(searchBy);
+            posts=this.postService.getAllPostByFilter(authors, tags, date);
+           }
+             
 
         String postId = "";
         for (Post post : posts) {
             postId = postId + String.valueOf(post.getId()) + ",";
         }
+        model.addAttribute("searchBy", searchBy);
         model.addAttribute("postId", postId);
         model.addAttribute("posts", posts);
         Set<String> listOfAuthors = this.postService.findAllAuthors();

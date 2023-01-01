@@ -71,35 +71,34 @@ public class PostService {
       this.commentRespository.delete(comment);
    }
 
-   public List<Post> sortPost(String sortBy,String postId) {
-      if(!postId.isBlank()){
-      String id[]=postId.split(",");
-      List<Integer> listOfPostId=new ArrayList<>();
-      for(String singleId:id){
-      listOfPostId.add(Integer.parseInt(singleId));
+   public List<Post> sortPost(String sortBy, String postId) {
+      if (!postId.isBlank()) {
+         String id[] = postId.split(",");
+         List<Integer> listOfPostId = new ArrayList<>();
+         for (String singleId : id) {
+            listOfPostId.add(Integer.parseInt(singleId));
+         }
+         List<Post> listOfPosts = new ArrayList<>();
+         List<Post> posts;
+         if (sortBy.equalsIgnoreCase("asc")) {
+            posts = this.postRepository.getAllPostOrderAsc(sortBy);
+         } else {
+            posts = this.postRepository.getAllPostOrderDesc(sortBy);
+         }
+         for (Post post : posts) {
+            if (listOfPostId.contains(post.getId())) {
+               listOfPosts.add(post);
+            }
+         }
+         return listOfPosts;
+
       }
-      List<Post> listOfPosts=new ArrayList<>();
       List<Post> posts;
       if (sortBy.equalsIgnoreCase("asc")) {
          posts = this.postRepository.getAllPostOrderAsc(sortBy);
       } else {
          posts = this.postRepository.getAllPostOrderDesc(sortBy);
       }
-      for(Post post:posts){
-   if(listOfPostId.contains(post.getId())){
-      listOfPosts.add(post);
-   }
-      }
- return listOfPosts;
-
-   }
-     List<Post> posts;
-      if (sortBy.equalsIgnoreCase("asc")) {
-         posts = this.postRepository.getAllPostOrderAsc(sortBy);
-      } else {
-         posts = this.postRepository.getAllPostOrderDesc(sortBy);
-      }
-
 
       return posts;
 
@@ -123,21 +122,22 @@ public class PostService {
       posts = this.postRepository.getAllPostByTitle(searchBy);
       return posts;
    }
+
    public Set<Post> getAllPostByFilter(List<String> authors, List<String> tags, List<String> date)
          throws ParseException {
       Set<Post> posts = new HashSet<>();
 
       // case 1 --when ony authors is present
       if (authors != null && tags == null && date.get(0).isBlank() && date.get(1).isBlank()) {
-         List<Post> listOfPosts=this.postRepository.getAllPostByAuthor(authors);
-         posts=new HashSet<>(listOfPosts);
+         List<Post> listOfPosts = this.postRepository.getAllPostByAuthor(authors);
+         posts = new HashSet<>(listOfPosts);
          return posts;
       }
 
       // case 2 when only tags is present
       if (authors == null && tags != null && date.get(0).isBlank() && date.get(1).isBlank()) {
-         List<Post> lisOfPosts=this.postRepository.getAllPostByTag(tags);
-         posts=new HashSet<>(lisOfPosts);
+         List<Post> lisOfPosts = this.postRepository.getAllPostByTag(tags);
+         posts = new HashSet<>(lisOfPosts);
          return posts;
       }
 
@@ -181,8 +181,8 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         List<Post> listOfPosts=this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end);
-         posts=new HashSet<>(listOfPosts);
+         List<Post> listOfPosts = this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end);
+         posts = new HashSet<>(listOfPosts);
          return posts;
       }
 
@@ -196,8 +196,8 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         List<Post> listOfPosts=this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
-         posts=new HashSet<>(listOfPosts);
+         List<Post> listOfPosts = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
+         posts = new HashSet<>(listOfPosts);
          return posts;
       }
 
@@ -211,12 +211,12 @@ public class PostService {
          LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
                Integer.parseInt(str1[2]), 0, 0, 0);
          Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-       List<Post> listOfPosts=this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
-   for(Post post:listOfPosts){
-      if(authors.contains(post.getAuthor())){
-         posts.add(post);
-      }
-   }
+         List<Post> listOfPosts = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
+         for (Post post : listOfPosts) {
+            if (authors.contains(post.getAuthor())) {
+               posts.add(post);
+            }
+         }
          return posts;
       }
 
@@ -253,34 +253,30 @@ public class PostService {
       return listOfTags;
    }
 
-
-
-   public List<String> getAllAuthorByAuthorAndTag(String searchBy){
-    List<String> listOfAuthors=this.postRepository.getAllAuthorByAuthorAndTag(searchBy);
+   public List<String> getAllAuthorByAuthorAndTag(String searchBy) {
+      List<String> listOfAuthors = this.postRepository.getAllAuthorByAuthorAndTag(searchBy);
       return listOfAuthors;
    }
 
-
-   public Set<String> getAllAuthorsByPost(List<Post> posts){
-    Set<String> authors=new HashSet<>();
-    for(Post post:posts){
-      authors.add(post.getAuthor());
-    }
+   public Set<String> getAllAuthorsByPost(List<Post> posts) {
+      Set<String> authors = new HashSet<>();
+      for (Post post : posts) {
+         authors.add(post.getAuthor());
+      }
       return authors;
    }
 
+   public Set<String> getAllTagsByAuthorsAndPost(List<Post> posts, Set<String> authors) {
+      Set<String> tags = new HashSet<>();
+      for (Post post : posts) {
+         if (authors.contains(post.getAuthor())) {
+            List<Tag> listOfTags = post.getTags();
+            for (Tag tag : listOfTags) {
+               tags.add(tag.getName());
+            }
 
-   public Set<String> getAllTagsByAuthorsAndPost(List<Post> posts,Set<String> authors){
-    Set<String> tags=new HashSet<>();
-    for(Post post:posts){
-      if(authors.contains(post.getAuthor())){
-        List<Tag> listOfTags=post.getTags();
-     for(Tag tag:listOfTags){
-       tags.add(tag.getName());
-     }
-
+         }
       }
-    }
 
       return tags;
    }
