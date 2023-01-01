@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import com.udit.blogapplication.entities.Comment;
@@ -99,21 +98,7 @@ public class PostService {
    }
 
    public List<Post> getAllPostByTitle(String searchBy) {
-      List<Post> posts = new ArrayList<>();
-      List<Tag> tags = this.tagRepository.getAllTagByTag(searchBy);
-      System.out.println(tags);
-      if (!tags.isEmpty()) {
-         for (Tag tag : tags) {
-            if (tag.getName().equalsIgnoreCase(searchBy)) {
-               List<Post> listOfPost = tag.getPosts();
-               for (Post post : listOfPost) {
-                  posts.add(post);
-               }
-            }
-         }
-         return posts;
-      }
-      posts = this.postRepository.getAllPostByTitle(searchBy);
+      List<Post> posts=this.postRepository.getAllPostByTitleOrTag(searchBy);
       return posts;
    }
 
