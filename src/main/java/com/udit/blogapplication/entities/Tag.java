@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="tags")
 public class Tag {
@@ -42,6 +44,7 @@ public class Tag {
 	  joinColumns = @JoinColumn(name="tag_id"),
 	  inverseJoinColumns =@JoinColumn(name="post_id")
 			)
+			@JsonBackReference
 	private List<Post> posts;
 	
 	public int getId() {

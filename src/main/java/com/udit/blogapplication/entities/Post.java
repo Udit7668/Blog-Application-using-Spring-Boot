@@ -21,6 +21,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="post")
 public class Post {
@@ -60,6 +62,7 @@ public class Post {
 	
 	
 	@OneToMany(mappedBy ="posts",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Comment> comments;
 	
 
@@ -69,6 +72,7 @@ public class Post {
 	  inverseJoinColumns =@JoinColumn(name="tag_id")
 			)
 	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonManagedReference
 	private List<Tag> tags;
 
 	

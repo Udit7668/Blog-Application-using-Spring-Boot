@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="comment")
 public class Comment {
@@ -38,6 +40,7 @@ public class Comment {
 	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
 	@JoinColumn(name="post_id")
+	@JsonBackReference
 	private Post posts;
 	
 	@Column(name="created_at",nullable = false,updatable = false)

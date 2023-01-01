@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udit.blogapplication.entities.Post;
-import com.udit.blogapplication.repository.PostRepository;
 import com.udit.blogapplication.services.PostService;
 
 @RestController
@@ -21,7 +20,7 @@ public class PostControllerRestApi {
     @Autowired
     private PostService postService;
     
-    @GetMapping("/{id}")
+    @GetMapping("byId/{id}")
     public Post getPostById(@PathVariable("id") Integer id){ 
     Post post=this.postService.getPostById(id);     
     return post;
