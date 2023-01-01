@@ -122,7 +122,6 @@
         Filter By Author::
   
         <form th:action="@{/filter}">
-          
             <div th:each=" author: ${authors}" th:object="${authors}">
               <input type="hidden" name="searchBy" th:value="${searchBy}">
           <input type="checkbox" th:value="${author}" th:text="${author}" name="author">
@@ -142,14 +141,9 @@
     <input type="date" name="Date" >
     <br>
         <input type="submit" value="Filter">
-            </form>
-    
-
+          </form>
       </div>
-       
     </div>
-
-
 		<div th:if = "${totalPages > 1}">
 			<div class = "row col-sm-10">
 				<div class = "col-sm-2">

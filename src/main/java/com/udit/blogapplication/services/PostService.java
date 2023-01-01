@@ -78,19 +78,13 @@ public class PostService {
          for (String singleId : id) {
             listOfPostId.add(Integer.parseInt(singleId));
          }
-         List<Post> listOfPosts = new ArrayList<>();
          List<Post> posts;
          if (sortBy.equalsIgnoreCase("asc")) {
-            posts = this.postRepository.getAllPostOrderAsc(sortBy);
+            posts = this.postRepository.getAllPostByIdAndOrderAsc(listOfPostId);
          } else {
-            posts = this.postRepository.getAllPostOrderDesc(sortBy);
-         }
-         for (Post post : posts) {
-            if (listOfPostId.contains(post.getId())) {
-               listOfPosts.add(post);
-            }
-         }
-         return listOfPosts;
+            posts = this.postRepository.getAllPostByIdAndOrderDesc(listOfPostId);      
+           }
+           return posts;
 
       }
       List<Post> posts;
@@ -227,10 +221,8 @@ public class PostService {
       return java.sql.Timestamp.valueOf(dateToConvert);
    }
 
-   public Page<Post> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-      Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
-            : Sort.by(sortField).descending();
-      Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+   public Page<Post> findPaginated(int pageNo, int pageSize) {
+      Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
       return this.postRepository.findAll(pageable);
    }
 
