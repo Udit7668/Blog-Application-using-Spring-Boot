@@ -167,8 +167,6 @@ public class PostController {
         List<String> authors = new ArrayList<>();
         authors.add(author);
         Set<Post> posts = this.postService.getAllPostByFilter(authors, tags, date);
-
-
         String postId = "";
         for (Post post : posts) {
             postId = postId + String.valueOf(post.getId()) + ",";

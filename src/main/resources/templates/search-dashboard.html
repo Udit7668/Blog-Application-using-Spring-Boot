@@ -1,171 +1,183 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      td,th{
-      border:2px solid black;
-      }
 
-      th{
-        background-color:lightgreen;
-      }
-      
-      #nav{
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    td,
+    th {
+      border: 2px solid black;
+    }
+
+    th {
+      background-color: lightgreen;
+    }
+
+    #nav {
       display: flex;
       justify-content: space-between;
-      }
-      
-      #action{
+    }
+
+    #action {
       display: flex;
       padding: 10px;
-      }
-      
-      .pagination{
+    }
+
+    .pagination {
       display: flex;
-      padding:10px;
-      }
-      .pagination li{
+      padding: 10px;
+    }
+
+    .pagination li {
       margin: 20px;
-      }
+    }
 
-      #delete{
-    text-decoration: none;
+    #delete {
+      text-decoration: none;
 
-      }
-      h1{
-        border:2px solid black;
-        background-color: cyan;
-        text-align: center;
-      }
+    }
 
-      .float-container {
-     display: inline-block;
-    
-    column-gap: 20px;
-    padding: 20px;
-}
+    h1 {
+      border: 2px solid black;
+      background-color: cyan;
+      text-align: center;
+    }
 
-.float-child {
-  margin: 20px;
-    width: 40%;
-    border: 2px solid black;;
-    float: left;
-    height: 300px;;
-    padding: 20px;
-    
-}  
+    .float-container {
+      display: inline-block;
 
-      </style>
-      <link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous">
+      column-gap: 20px;
+      padding: 20px;
+    }
+
+    .float-child {
+      margin: 20px;
+      width: 40%;
+      border: 2px solid black;
+      ;
+      float: left;
+      height: 300px;
+      ;
+      padding: 20px;
+
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 </head>
-<body>
-    
 
-    <h1>All posts are</h1>
-    <div id="nav">
+<body>
+
+
+  <h1>All posts are</h1>
+  <div id="nav">
     <div id="add">
 
-    <form th:action="@{/newPost}">
-    <button type="submit">Add Post</button>
-    </form>
+      <form th:action="@{/newPost}">
+        <button type="submit">Add Post</button>
+      </form>
 
     </div>
+    <form th:action="@{/}">
+      <button type="submit">Go To Home</button>
+    </form>
+
     <div id="action">
-    <div id="search">
-    <form th:action="@{/search}">
-     Search::<input type="text" name="title">
-    <button type="submit">Search</button>
-    </form>
-    </div>
-    <div id="sort">
-    <form th:action="@{/sort}">
-    <input type="hidden" name="postId" th:value="${postId}">
-    Sort By Date:: <select name="sortby">
-    <option value="asc" label="Ascending">
-    <option value="desc" label="Descending">
-    <select>
-    <button type="submit">Sort</button>
-    </form>
-    </div>
-    </div>
-    </div>
-    
-
-    <div class="float-container">
-   
-      <div class="float-child green" th:each=" post: ${posts}">
-          
-        <h3 th:text="${post.title}"></h3>
-         <h4 th:text="${post.author}"></h4>
-         <h5 th:text="${post.creationDate}"></h5>
-         <h5 th:text="${post.updateDate}"></h5>
-             <span th:text="${post.excrept}"></span>
-          
-             <br>
-             
-               <td>
-                <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete" >View Post</a>
-                   </td>
-          
+      <div id="search">
+        <form th:action="@{/search}">
+          Search::<input type="text" name="title">
+          <button type="submit">Search</button>
+        </form>
       </div>
+      <div id="sort">
+        <form th:action="@{/sort}">
+          <input type="hidden" name="postId" th:value="${postId}">
+          Sort By Date:: <select name="sortby">
+            <option value="asc" label="Ascending">
+            <option value="desc" label="Descending">
+              <select>
+                <button type="submit">Sort</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-      <div id="filter">
-  
-        <form th:action="@{/filter/search}">
-              <input type="hidden" name="author" th:value="${searchBy}">
-                  <br>
-            Filter By Tags::
-            <div th:each=" tag: ${listOfTags}"   th:object="${listOfTags}">
-             <input type="checkbox" th:value="${tag}" th:text="${tag}" name="tag"> 
-             </option>
-            </div>
-            </select>
-            <br>
-    <input type="date" name="Date" >
-    <br>
-    <input type="date" name="Date" >
-    <br>
+
+  <div class="float-container">
+
+    <div class="float-child green" th:each=" post: ${posts}">
+
+      <h3 th:text="${post.title}"></h3>
+      <h4 th:text="${post.author}"></h4>
+      <h5 th:text="${post.creationDate}"></h5>
+      <h5 th:text="${post.updateDate}"></h5>
+      <span th:text="${post.excrept}"></span>
+
+      <br>
+
+      <td>
+        <a th:href="@{/view/{viewId}(viewId=${post.id})}" id="delete">View Post</a>
+      </td>
+
+    </div>
+
+    <div id="filter">
+
+      <form th:action="@{/filter/search}">
+        <input type="hidden" name="author" th:value="${searchBy}">
+        <br>
+        Filter By Tags::
+        <div th:each=" tag: ${listOfTags}" th:object="${listOfTags}">
+          <input type="checkbox" th:value="${tag}" th:text="${tag}" name="tag">
+          </option>
+        </div>
+        </select>
+        <br>
+        <input type="date" name="Date">
+        <br>
+        <input type="date" name="Date">
+        <br>
         <input type="submit" value="Filter">
-            </form>
-    
+      </form>
 
-      </div>
-       
+
     </div>
 
+  </div>
 
-		<div th:if = "${totalPages > 1}">
-			<div class = "row col-sm-10">
-				<div class = "col-sm-2">
-					Total Rows: [[${totalItems}]] 
-				</div>
-				<div class = "col-sm-1">
-					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
-				</div>
-				<div class = "col-sm-1">
-					<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-					<span th:unless="${currentPage < totalPages}">Next</span>
-				</div>
-				
-				 <div class="col-sm-1">
-    				<a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-					<span th:unless="${currentPage < totalPages}">Last</span>
-   				 </div>
-			</div>
-		</div>
-    
+
+  <div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+      <div class="col-sm-2">
+        Total Rows: [[${totalItems}]]
+      </div>
+      <div class="col-sm-1">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}"
+            th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+      </div>
+      <div class="col-sm-1">
+        <a th:if="${currentPage < totalPages}"
+          th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+      </div>
+
+      <div class="col-sm-1">
+        <a th:if="${currentPage < totalPages}"
+          th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <span th:unless="${currentPage < totalPages}">Last</span>
+      </div>
+    </div>
+  </div>
+
 
 
 </body>
+
 </html>

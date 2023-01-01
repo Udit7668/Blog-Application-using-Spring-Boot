@@ -24,7 +24,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         http.
         authorizeRequests()
         .antMatchers("/","/login","/register","/createUser","/filter","/search","/sort","/page/**","/filter/search").permitAll()
-        
         .anyRequest()
         .authenticated()
         .and()
