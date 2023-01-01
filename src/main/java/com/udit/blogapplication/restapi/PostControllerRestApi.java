@@ -41,15 +41,20 @@ public class PostControllerRestApi {
        return post;
    }
 
- @GetMapping("sortBy/{sort}")
+ @GetMapping("/sortBy/{sort}")
    public List<Post> sortPostByDate(@PathVariable("sort") String sortBy){
-List<Post> listOfPosts=this.postService.getAllPost();
- String listOfIds="";
- for(Post post:listOfPosts){
+   List<Post> listOfPosts=this.postService.getAllPost();
+   String listOfIds="";
+   for(Post post:listOfPosts){
    listOfIds=listOfIds+ String.valueOf(post.getId())+",";
  }
   List<Post> posts=this.postService.sortPost(sortBy, listOfIds);
     return posts;
    }
 
+@GetMapping("search/{searchBy}")
+   public List<Post> getAllPostBySearch(@PathVariable("searchBy") String searchBy){
+List<Post> posts=this.postService.getAllPostByTitle(searchBy);
+    return posts;
+   }
 }
