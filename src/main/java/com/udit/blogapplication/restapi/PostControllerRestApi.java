@@ -35,7 +35,8 @@ public class PostControllerRestApi {
 
     @PostMapping("/add")
    public Post addPost(@RequestBody Post post){
-    return null;
+       this.postService.addPost(post);
+       return post;
    }
 
 }
