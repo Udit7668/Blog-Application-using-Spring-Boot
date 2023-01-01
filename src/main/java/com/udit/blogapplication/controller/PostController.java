@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.udit.blogapplication.entities.Comment;
@@ -147,38 +148,47 @@ public class PostController {
         List<Post> posts = this.postService.getAllPostByTitle(searchBy);
 
         model.addAttribute("searchBy", searchBy);
-        Set<String> listOfAuthors = this.postService.getAllAuthorsByPost(posts);
+        Set<String> listOfAuthors =new HashSet<>();
+        for(Post post:posts){
+            listOfAuthors.add(post.getAuthor());
+        }
         Set<String> lisOfTags = this.postService.getAllTagsByAuthorsAndPost(posts, listOfAuthors);
         model.addAttribute("authors", listOfAuthors);
 
         model.addAttribute("listOfTags", lisOfTags);
         model.addAttribute("posts", posts);
-        return "post-confirmation";
+        return "search-dashboard";
     }
+
+    @GetMapping("/filter/search")
+    public String filterAndSearch(@RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "Date", required = false) List<String> date,
+            @RequestParam(value = "tag", required = false) List<String> tags,
+            Model model) throws ParseException {
+         List<String> authors=new ArrayList<>();
+         authors.add(author);
+         Set<Post> posts=this.postService.getAllPostByFilter(authors, tags, date);
+         model.addAttribute("posts", posts);
+         Set<String> lisOfTags = this.postService.findAllTags();
+         model.addAttribute("listOfTags", lisOfTags);
+        model.addAttribute("searchBy", author);
+                return "search-dashboard";
+
+            }
 
     @GetMapping("/filter")
     public String filter(@RequestParam(value = "author", required = false) List<String> authors,
             @RequestParam(value = "Date", required = false) List<String> date,
             @RequestParam(value = "tag", required = false) List<String> tags,
-            @RequestParam(value = "searchBy",required = false) String searchBy,
             Model model) throws ParseException {
     
-           Set<Post>  posts=new HashSet<>();  
-           if(searchBy.isBlank()){
-           posts= this.postService.getAllPostByFilter(authors, tags, date);
-           }
-           else{
-            authors=new ArrayList<>();
-            authors.add(searchBy);
-            posts=this.postService.getAllPostByFilter(authors, tags, date);
-           }
-             
+     Set<Post> posts=this.postService.getAllPostByFilter(authors, tags, date);   
 
         String postId = "";
         for (Post post : posts) {
             postId = postId + String.valueOf(post.getId()) + ",";
         }
-        model.addAttribute("searchBy", searchBy);
+       // model.addAttribute("searchBy", searchBy);
         model.addAttribute("postId", postId);
         model.addAttribute("posts", posts);
         Set<String> listOfAuthors = this.postService.findAllAuthors();
