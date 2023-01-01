@@ -1,5 +1,6 @@
 package com.udit.blogapplication.restapi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udit.blogapplication.entities.Post;
+import com.udit.blogapplication.repository.PostRepository;
 import com.udit.blogapplication.services.PostService;
 
 @RestController
@@ -32,10 +34,22 @@ public class PostControllerRestApi {
         return posts;
     }
 
-    @PostMapping("/add")
+  @PostMapping("/add")
    public Post addPost(@RequestBody Post post){
+    System.out.println(post);
        this.postService.addPost(post);
        return post;
+   }
+
+ @GetMapping("sortBy/{sort}")
+   public List<Post> sortPostByDate(@PathVariable("sort") String sortBy){
+List<Post> listOfPosts=this.postService.getAllPost();
+ String listOfIds="";
+ for(Post post:listOfPosts){
+   listOfIds=listOfIds+ String.valueOf(post.getId())+",";
+ }
+  List<Post> posts=this.postService.sortPost(sortBy, listOfIds);
+    return posts;
    }
 
 }
