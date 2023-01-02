@@ -66,8 +66,11 @@ public class PostControllerRestApi {
    }
 
  @GetMapping("/sortBy/{sort}")
-   public List<Post> sortPostByDate(@PathVariable("sort") String sortBy){
-     List<Post> posts=this.postService.sortPost(sortBy);
+   public List<Post> sortPostByDate(@PathVariable("sort") String sortBy,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize  
+   ){
+     List<Post> posts=this.postService.sortPost(sortBy,pageNumber,pageSize);
      return posts;
    }
 

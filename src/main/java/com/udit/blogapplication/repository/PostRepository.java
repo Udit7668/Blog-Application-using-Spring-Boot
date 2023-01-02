@@ -18,9 +18,15 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
      @Query("select u FROM Post  u order by u.creationDate desc")
      public List<Post> getAllPostOrderDesc(@Param("n") String sortBy);
+
+     @Query("select u FROM Post  u order by u.creationDate desc")
+     public Page<Post> getAllPostOrderDesc(@Param("n") String sortBy,Pageable pageable);
     
      @Query("select u FROM Post  u order by u.creationDate asc")
      public List<Post> getAllPostOrderAsc(@Param("n") String sortBy);
+
+     @Query("select u FROM Post  u order by u.creationDate asc")
+     public Page<Post> getAllPostOrderAsc(@Param("n") String sortBy,Pageable pageable);
 
      @Query("select u FROM Post u where u.title=:c or u.author=:c or u.content=:c")
      public List<Post> getAllPostByTitle(@Param("c") String searchBy);

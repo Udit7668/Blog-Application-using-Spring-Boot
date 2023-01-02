@@ -356,14 +356,18 @@ public class PostService {
   }
 
 
-  public List<Post> sortPost(String sortBy){
-   List<Post> posts;
+  public List<Post> sortPost(String sortBy,Integer pageNumber,Integer pageSize){
+   Pageable pageable=PageRequest.of(pageNumber,pageSize);
+   Page<Post> posts;
+   List<Post> listOfPosts=new ArrayList<>();
    if (sortBy.equalsIgnoreCase("asc")) {
-      posts = this.postRepository.getAllPostOrderAsc(sortBy);
+      posts = this.postRepository.getAllPostOrderAsc(sortBy,pageable);
+      listOfPosts=posts.getContent();
    } else {
-      posts = this.postRepository.getAllPostOrderDesc(sortBy);      
+      posts = this.postRepository.getAllPostOrderDesc(sortBy,pageable);
+      listOfPosts=posts.getContent();      
      }
-     return posts;
+     return listOfPosts;
   }
 
 }
