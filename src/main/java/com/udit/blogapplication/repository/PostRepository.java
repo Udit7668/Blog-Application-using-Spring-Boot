@@ -50,7 +50,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      public List<Post> getAllPostByTag( @Param("x") List<String> tags);
 
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x",nativeQuery = true)
-     public Page<Post> getAllPostByTag( @Param("x") List<String> tags,Pageable page);
+     public Page<Post> getAllPostByTag( @Param("x") List<String> tags,Pageable pageable);
 
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x and u.created_at between :s and :e",nativeQuery = true)
      public List<Post> getAllPostByTagAndCreationDateBetween(@Param("x") List<String> tags,@Param("s") Date startDate,@Param("e") Date endDate);
@@ -60,6 +60,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
      public List<Post> findByCreationDateBetween(Date startDate,Date endDate);
 
+     public Page<Post> findByCreationDateBetween(Date startDate,Date endDate,Pageable pageable);
 
      @Query(value = "select u.author from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c or t.name=:c or u.title:c or u.author=:c or u.content:c",nativeQuery = true)
      public List<String> getAllAuthorByAuthorAndTag(@Param("c") String author

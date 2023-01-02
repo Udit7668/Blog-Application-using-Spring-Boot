@@ -117,9 +117,12 @@ public class PostControllerRestApi {
    }
 
    @GetMapping("/filterByDate/{date}")
-   public ResponseEntity<List<Post>> getAllPostByFilteringDateBetween(@PathVariable(value = "date",required=false) String date) throws ParseException{
+   public ResponseEntity<List<Post>> getAllPostByFilteringDateBetween(@PathVariable(value = "date",required=false) String date,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize 
+   ) throws ParseException{
     List<String> dates=convert(date);
-    List<Post> posts=this.postService.getAllPostByDate(dates);
+    List<Post> posts=this.postService.getAllPostByDate(dates,pageNumber,pageSize);
     if(posts==null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
