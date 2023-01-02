@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udit.blogapplication.entities.Post;
@@ -39,8 +40,12 @@ public class PostControllerRestApi {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Post>> getAllPost(){
-        List<Post> posts=this.postService.getAllPost();
+    public ResponseEntity<List<Post>> getAllPost(
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize
+
+    ){
+        List<Post> posts=this.postService.findAllPost(pageNumber, pageSize);
         if(posts.size()<=0){
           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

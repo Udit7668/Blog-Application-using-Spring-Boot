@@ -346,4 +346,13 @@ public class PostService {
       return posts;
    }
 
+
+
+   public List<Post> findAllPost(Integer pageNumber,Integer pageSize){
+      Pageable pageable=PageRequest.of(pageNumber,pageSize);
+      Page<Post> page=this.postRepository.findAll(pageable);
+      List<Post> posts=page.getContent();
+      return posts;
+  }
+
 }
