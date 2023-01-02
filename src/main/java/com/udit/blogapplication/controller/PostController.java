@@ -133,7 +133,6 @@ public class PostController {
             postid = postid + String.valueOf(post.getId()) + ",";
         }
         model.addAttribute("postId", postid);
-
         Set<String> listOfAuthors = this.postService.findAllAuthors();
         Set<String> lisOfTags = this.postService.findAllTags();
         model.addAttribute("authors", listOfAuthors);
