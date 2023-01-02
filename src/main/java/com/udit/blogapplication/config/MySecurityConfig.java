@@ -11,12 +11,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.udit.blogapplication.services.CustomeUserDetailService;
 
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter{
+  
+    @Autowired
+    private JwtAuthenticationFilter jwtFilter;
 
     @Autowired
    private CustomeUserDetailService customeUserDetailService;
@@ -42,6 +46,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         .exceptionHandling()
         .accessDeniedPage("/access-denied")
         ;
+
+        http.addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
