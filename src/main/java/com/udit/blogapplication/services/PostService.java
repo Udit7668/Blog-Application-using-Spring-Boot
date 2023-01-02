@@ -346,7 +346,8 @@ public class PostService {
    }
 
 
-   public List<Post> getAllPostByTagsAndDateBetween(List<String> tags,List<String> date){
+   public List<Post> getAllPostByTagsAndDateBetween(List<String> tags,List<String> date,Integer pageNumber,Integer pageSize){
+      Pageable pageable= PageRequest.of(pageNumber, pageSize);
       String[] str = date.get(0).split("-");
       LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
             Integer.parseInt(str[2]), 0, 0, 0);
@@ -355,7 +356,8 @@ public class PostService {
       LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
             Integer.parseInt(str1[2]), 0, 0, 0);
       Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-      List<Post> posts = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end);
+      Page<Post> page = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end,pageable);
+      List<Post> posts=page.getContent();
       return posts;
    }
 

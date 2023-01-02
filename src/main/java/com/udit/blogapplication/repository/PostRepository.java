@@ -58,6 +58,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x and u.created_at between :s and :e",nativeQuery = true)
      public List<Post> getAllPostByTagAndCreationDateBetween(@Param("x") List<String> tags,@Param("s") Date startDate,@Param("e") Date endDate);
 
+     
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where t.name in :x and u.created_at between :s and :e",nativeQuery = true)
      public Page<Post> getAllPostByTagAndCreationDateBetween(@Param("x") List<String> tags,@Param("s") Date startDate,@Param("e") Date endDate,Pageable pageable);
 
