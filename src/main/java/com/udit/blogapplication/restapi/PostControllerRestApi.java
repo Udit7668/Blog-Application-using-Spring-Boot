@@ -80,7 +80,7 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
    }
 
 
-   @GetMapping("/filter/{authors}")
+   @GetMapping("/filterByAuthors/{authors}")
    public ResponseEntity<List<Post>> getAllPostByFilterAuthor(@PathVariable(value = "authors",required=false) String author) throws ParseException{
     List<String> authors=convert(author);
     List<Post> posts=this.postService.getAllPostByAuthorFilter(authors);
@@ -105,6 +105,20 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
    public ResponseEntity<List<Post>> getAllPostByFilteringDateBetween(@PathVariable(value = "date",required=false) String date) throws ParseException{
     List<String> dates=convert(date);
     List<Post> posts=this.postService.getAllPostByDate(dates);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
+
+   @GetMapping("/filter/{authors}/{tags}/{date}")
+   public ResponseEntity<List<Post>> getAllPostByFilterAuthorAndTagsAndDateBetween(@PathVariable(value = "authors",required=false) String author,
+   @PathVariable(value = "tags",required=false) String tag,
+   @PathVariable(value = "date",required=false) String date  ) throws ParseException{
+    List<String> authors=convert(author);
+    List<String> tags=convert(tag);
+    List<String> dates=convert(date);
+    List<Post> posts=this.postService.getAllPostByFilterAll(authors, tags, dates);
     if(posts==null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
