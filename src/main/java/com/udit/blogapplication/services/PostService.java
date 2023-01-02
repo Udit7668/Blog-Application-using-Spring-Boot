@@ -303,4 +303,19 @@ public class PostService {
       return posts;
    }
 
+
+   public List<Post> getAllPostByAuthorAndTags(List<String> authors,List<String> tags){
+      Set<Post> listOfPost=new HashSet<>();
+      for (String tag : tags) {
+         for (String author : authors) {
+            List<Post> listOfPosts = this.postRepository.getAllPostByAuthorAndTag(author, tag);
+            for (Post post : listOfPosts) {
+               listOfPost.add(post);
+            }
+         }
+      }
+      List<Post> posts=new ArrayList<>(listOfPost);
+      return posts;
+   }
+
 }

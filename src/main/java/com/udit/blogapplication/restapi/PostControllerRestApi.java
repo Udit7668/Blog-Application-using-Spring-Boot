@@ -125,6 +125,19 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
     return ResponseEntity.of(Optional.of(posts));
    }
 
+   @GetMapping("/filterByAuthorAndTag/{authors}/{tags}")
+   public ResponseEntity<List<Post>> getAllPostByFilterAuthorAndTags(@PathVariable(value = "authors",required=false) String author,
+   @PathVariable(value = "tags",required=false) String tag) throws ParseException{
+    List<String> authors=convert(author);
+    List<String> tags=convert(tag);
+    List<Post> posts=this.postService.getAllPostByAuthorAndTags(authors, tags);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
+
+   
    public List<String> convert(String string){
     String[] list=string.split(",");
     List<String> listOf=new ArrayList<>();
