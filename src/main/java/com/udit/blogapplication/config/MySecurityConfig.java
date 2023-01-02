@@ -42,8 +42,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         .exceptionHandling()
         .accessDeniedPage("/access-denied")
         ;
-
-    
     }
 
     @Override
