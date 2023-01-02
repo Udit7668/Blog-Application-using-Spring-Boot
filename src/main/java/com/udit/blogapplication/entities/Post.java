@@ -22,9 +22,12 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Entity
 @Table(name="post")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Post {
 	
 	@Id
@@ -72,7 +75,7 @@ public class Post {
 	  inverseJoinColumns =@JoinColumn(name="tag_id")
 			)
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@JsonManagedReference
+
 	private List<Tag> tags;
 
 	
@@ -87,7 +90,7 @@ public class Post {
 
 	public Post() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public int getId() {

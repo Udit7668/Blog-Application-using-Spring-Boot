@@ -32,12 +32,6 @@ public class Comment {
 	
 	private String comment;
 	
-//	@ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
-//	@JoinTable(name = "post_comment",
-//	  joinColumns = @JoinColumn(name="comment_id",updatable = false),
-//	  inverseJoinColumns = @JoinColumn(name="post_id",updatable = false)
-//			)
-	
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST})
 	@JoinColumn(name="post_id")
 	@JsonBackReference
