@@ -101,6 +101,16 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
     return ResponseEntity.of(Optional.of(posts));
    }
 
+   @GetMapping("/filterByDate/{date}")
+   public ResponseEntity<List<Post>> getAllPostByFilteringDateBetween(@PathVariable(value = "date",required=false) String date) throws ParseException{
+    List<String> dates=convert(date);
+    List<Post> posts=this.postService.getAllPostByDate(dates);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
+
    public List<String> convert(String string){
     String[] list=string.split(",");
     List<String> listOf=new ArrayList<>();
