@@ -264,4 +264,10 @@ public class PostService {
       return posts;
    }
 
+
+   public List<Post> getAllPostByTags(List<String> tags){
+      List<Post> posts=this.postRepository.getAllPostByTag(tags);
+      return posts;
+   }
+
 }

@@ -81,12 +81,25 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
 
 
    @GetMapping("/filter/{authors}")
-   public List<Post> getAllPostByFilter(@PathVariable(value = "authors",required=false) String author) throws ParseException{
+   public ResponseEntity<List<Post>> getAllPostByFilterAuthor(@PathVariable(value = "authors",required=false) String author) throws ParseException{
     List<String> authors=convert(author);
     List<Post> posts=this.postService.getAllPostByAuthorFilter(authors);
-    return posts;
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
    }
 
+
+   @GetMapping("/filterByTags/{tags}")
+   public ResponseEntity<List<Post>> getAllPostByFilteringTag(@PathVariable(value = "tags",required=false) String tag) throws ParseException{
+    List<String> tags=convert(tag);
+    List<Post> posts=this.postService.getAllPostByTags(tags);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
 
    public List<String> convert(String string){
     String[] list=string.split(",");
