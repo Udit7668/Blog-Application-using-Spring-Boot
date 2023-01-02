@@ -4,14 +4,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -185,11 +183,17 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
 
    }
 
-   @PutMapping("/update/{id}")
-   public ResponseEntity<Post> updatePost(@PathVariable("id") Integer id,@RequestBody Post post){
-
-     return null;
-   }
+   @PutMapping("/update")
+   public ResponseEntity<Post> updatePost(@RequestBody Post post){
+    try{
+      this.postService.addPost(post);
+      return ResponseEntity.of(Optional.of(post));
+       }
+       catch(Exception e){
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
+}
 }
 
 
