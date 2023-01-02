@@ -312,11 +312,14 @@ public class PostService {
    }
 
 
-   public List<Post> getAllPostByAuthorAndTags(List<String> authors,List<String> tags){
+   public List<Post> getAllPostByAuthorAndTags(List<String> authors,List<String> tags,Integer pageNumber,Integer pageSize){
+        Pageable pageable= PageRequest.of(pageNumber-1, pageSize);
+     
       Set<Post> listOfPost=new HashSet<>();
       for (String tag : tags) {
          for (String author : authors) {
-            List<Post> listOfPosts = this.postRepository.getAllPostByAuthorAndTag(author, tag);
+            Page<Post> page = this.postRepository.getAllPostByAuthorAndTag(author, tag,pageable);
+            List<Post> listOfPosts=page.getContent();
             for (Post post : listOfPosts) {
                listOfPost.add(post);
             }

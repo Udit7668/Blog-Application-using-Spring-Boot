@@ -148,10 +148,13 @@ public class PostControllerRestApi {
 
    @GetMapping("/filterByAuthorAndTag/{authors}/{tags}")
    public ResponseEntity<List<Post>> getAllPostByFilterAuthorAndTags(@PathVariable(value = "authors",required=false) String author,
-   @PathVariable(value = "tags",required=false) String tag) throws ParseException{
+   @PathVariable(value = "tags",required=false) String tag,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize 
+   ) throws ParseException{
     List<String> authors=convert(author);
     List<String> tags=convert(tag);
-    List<Post> posts=this.postService.getAllPostByAuthorAndTags(authors, tags);
+    List<Post> posts=this.postService.getAllPostByAuthorAndTags(authors, tags,pageNumber,pageSize);
     if(posts==null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }

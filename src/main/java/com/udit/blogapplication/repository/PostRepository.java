@@ -61,6 +61,9 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
      @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c and t.name=:x",nativeQuery = true)
      public List<Post> getAllPostByAuthorAndTag(@Param("c") String author,@Param("x") String tag);
 
+     @Query(value = "select u.* from post u join post_tag pt on u.id=pt.post_id join tags t on t.id=pt.tag_id  where u.author=:c and t.name=:x",nativeQuery = true)
+     public Page<Post> getAllPostByAuthorAndTag(@Param("c") String author,@Param("x") String tag,Pageable pageable);
+
      public List<Post> findByCreationDateBetween(Date startDate,Date endDate);
 
      public Page<Post> findByCreationDateBetween(Date startDate,Date endDate,Pageable pageable);
