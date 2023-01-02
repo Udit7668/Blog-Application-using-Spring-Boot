@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.udit.blogapplication.entities.Post;
 import com.udit.blogapplication.services.PostService;
 
+import ch.qos.logback.core.status.Status;
+
 @RestController
 @RequestMapping("/getPosts")
 public class PostControllerRestApi {
@@ -48,10 +50,16 @@ public class PostControllerRestApi {
     }
 
   @PostMapping("/add")
-   public Post addPost(@RequestBody Post post){
-    System.out.println(post);
-       this.postService.addPost(post);
-       return post;
+   public ResponseEntity<Post> addPost(@RequestBody Post post){
+         try{
+        this.postService.addPost(post);
+        return ResponseEntity.of(Optional.of(post));
+         }
+         catch(Exception e){
+          e.printStackTrace();
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+         }
+
    }
 
  @GetMapping("/sortBy/{sort}")
