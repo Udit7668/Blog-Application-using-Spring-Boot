@@ -149,6 +149,19 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
     return ResponseEntity.of(Optional.of(posts));
    }
 
+
+   @GetMapping("/filterByTagsAndDate/{tags}/{date}")
+   public ResponseEntity<List<Post>> getAllPostByFilterByTagsAndDateBetween(@PathVariable(value = "tags",required=false) String tag,
+   @PathVariable(value = "date",required=false) String date  ) throws ParseException{
+    List<String> tags=convert(tag);
+    List<String> dates=convert(date);
+    List<Post> posts=this.postService.getAllPostByTagsAndDateBetween(tags, dates);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
+
    public List<String> convert(String string){
     String[] list=string.split(",");
     List<String> listOf=new ArrayList<>();
