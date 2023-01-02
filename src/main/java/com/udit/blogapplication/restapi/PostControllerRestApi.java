@@ -75,11 +75,13 @@ public class PostControllerRestApi {
    }
 
 @GetMapping("/search/{searchBy}")
-   public List<Post> getAllPostBySearch(@PathVariable("searchBy") String searchBy){
-List<Post> posts=this.postService.getAllPostByTitle(searchBy);
+   public List<Post> getAllPostBySearch(@PathVariable("searchBy") String searchBy,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize  
+   ){
+    List<Post> posts=this.postService.getAllPostByTitle(searchBy,pageNumber,pageSize);
     return posts;
    }
-
 
    @GetMapping("/filterByAuthors/{authors}")
    public ResponseEntity<List<Post>> getAllPostByFilterAuthor(@PathVariable(value = "authors",required=false) String author) throws ParseException{

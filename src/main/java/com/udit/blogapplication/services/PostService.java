@@ -370,4 +370,11 @@ public class PostService {
      return listOfPosts;
   }
 
+  public List<Post> getAllPostByTitle(String searchBy,Integer pageNumber,Integer pageSize) {
+   Pageable pageable=PageRequest.of(pageNumber, pageSize);
+   Page<Post> page=this.postRepository.getAllPostByTitleOrTag(searchBy, pageable);
+   List<Post> posts=page.getContent();
+   return posts;
+}
+
 }
