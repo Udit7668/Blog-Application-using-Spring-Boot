@@ -259,8 +259,10 @@ public class PostService {
    }
 
 
-   public List<Post> getAllPostByAuthorFilter(List<String> authors){
-   List<Post> posts=this.postRepository.getAllPostByAuthorFilter(authors);
+   public List<Post> getAllPostByAuthorFilter(List<String> authors,Integer pageNumber,Integer pageSize){
+     Pageable pageable= PageRequest.of(pageNumber-1,pageSize);
+   Page<Post> page=this.postRepository.getAllPostByAuthorFilter(authors,pageable);
+  List<Post> posts=page.getContent();
       return posts;
    }
 
@@ -371,7 +373,7 @@ public class PostService {
   }
 
   public List<Post> getAllPostByTitle(String searchBy,Integer pageNumber,Integer pageSize) {
-   Pageable pageable=PageRequest.of(pageNumber, pageSize);
+   Pageable pageable=PageRequest.of(pageNumber-1, pageSize);
    Page<Post> page=this.postRepository.getAllPostByTitleOrTag(searchBy, pageable);
    List<Post> posts=page.getContent();
    return posts;

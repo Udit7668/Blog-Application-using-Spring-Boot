@@ -71,7 +71,7 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
 
 
     @Query(value="select * FROM post u where u.author in :c",nativeQuery = true)
-    public List<Post> getAllPostByAuthorFilter(@Param("c")  List<String> authors);
+    public Page<Post> getAllPostByAuthorFilter(@Param("c")  List<String> authors,Pageable pageable);
 
 
     public Page<Post> findAll(Pageable pageable);
