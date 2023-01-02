@@ -318,4 +318,18 @@ public class PostService {
       return posts;
    }
 
+
+   public List<Post> getAllPostByAuthorsAndDateBetween(List<String> authors,List<String> date){
+         String[] str = date.get(0).split("-");
+         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+               Integer.parseInt(str[2]), 0, 0, 0);
+         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+         String[] str1 = date.get(1).split("-");
+         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+               Integer.parseInt(str1[2]), 0, 0, 0);
+         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+         List<Post> posts = this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end);
+         return posts;
+   }
+
 }

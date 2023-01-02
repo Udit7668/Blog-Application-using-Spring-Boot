@@ -137,7 +137,18 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
     return ResponseEntity.of(Optional.of(posts));
    }
 
-   
+   @GetMapping("/filterByAuthorAndDate/{authors}/{date}")
+   public ResponseEntity<List<Post>> getAllPostByFilterAuthorAndDateBetween(@PathVariable(value = "authors",required=false) String author,
+   @PathVariable(value = "date",required=false) String date  ) throws ParseException{
+    List<String> authors=convert(author);
+    List<String> dates=convert(date);
+    List<Post> posts=this.postService.getAllPostByAuthorsAndDateBetween(authors, dates);
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
+   }
+
    public List<String> convert(String string){
     String[] list=string.split(",");
     List<String> listOf=new ArrayList<>();
