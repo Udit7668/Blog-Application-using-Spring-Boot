@@ -66,12 +66,15 @@ public class PostControllerRestApi {
    }
 
  @GetMapping("/sortBy/{sort}")
-   public List<Post> sortPostByDate(@PathVariable("sort") String sortBy,
+   public ResponseEntity<List<Post>> sortPostByDate(@PathVariable("sort") String sortBy,
    @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
    @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize  
    ){
      List<Post> posts=this.postService.sortPost(sortBy,pageNumber,pageSize);
-     return posts;
+     if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+     }
+     return ResponseEntity.of(Optional.of(posts));
    }
 
 @GetMapping("/search/{searchBy}")
