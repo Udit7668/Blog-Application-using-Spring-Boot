@@ -67,13 +67,8 @@ public class PostControllerRestApi {
 
  @GetMapping("/sortBy/{sort}")
    public List<Post> sortPostByDate(@PathVariable("sort") String sortBy){
-   List<Post> listOfPosts=this.postService.getAllPost();
-   String listOfIds="";
-   for(Post post:listOfPosts){
-   listOfIds=listOfIds+ String.valueOf(post.getId())+",";
- }
-  List<Post> posts=this.postService.sortPost(sortBy, listOfIds);
-    return posts;
+     List<Post> posts=this.postService.sortPost(sortBy);
+     return posts;
    }
 
 @GetMapping("/search/{searchBy}")

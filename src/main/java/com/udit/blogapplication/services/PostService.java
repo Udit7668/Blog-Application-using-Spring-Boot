@@ -355,4 +355,15 @@ public class PostService {
       return posts;
   }
 
+
+  public List<Post> sortPost(String sortBy){
+   List<Post> posts;
+   if (sortBy.equalsIgnoreCase("asc")) {
+      posts = this.postRepository.getAllPostOrderAsc(sortBy);
+   } else {
+      posts = this.postRepository.getAllPostOrderDesc(sortBy);      
+     }
+     return posts;
+  }
+
 }
