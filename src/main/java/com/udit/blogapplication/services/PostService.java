@@ -267,8 +267,10 @@ public class PostService {
    }
 
 
-   public List<Post> getAllPostByTags(List<String> tags){
-      List<Post> posts=this.postRepository.getAllPostByTag(tags);
+   public List<Post> getAllPostByTags(List<String> tags,Integer pageNumber,Integer pageSize){
+        Pageable pageable = PageRequest.of(pageNumber-1,pageSize);
+      Page<Post> page=this.postRepository.getAllPostByTag(tags,pageable);
+      List<Post> posts=page.getContent();
       return posts;
    }
 

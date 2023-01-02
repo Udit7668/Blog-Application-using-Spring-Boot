@@ -104,9 +104,12 @@ public class PostControllerRestApi {
 
 
    @GetMapping("/filterByTags/{tags}")
-   public ResponseEntity<List<Post>> getAllPostByFilteringTag(@PathVariable(value = "tags",required=false) String tag) throws ParseException{
+   public ResponseEntity<List<Post>> getAllPostByFilteringTag(@PathVariable(value = "tags",required=false) String tag,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize 
+   ) throws ParseException{
     List<String> tags=convert(tag);
-    List<Post> posts=this.postService.getAllPostByTags(tags);
+    List<Post> posts=this.postService.getAllPostByTags(tags,pageNumber,pageSize);
     if(posts==null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
