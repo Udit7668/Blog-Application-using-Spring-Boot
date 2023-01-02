@@ -75,7 +75,6 @@ public class Post {
 	  inverseJoinColumns =@JoinColumn(name="tag_id")
 			)
 	@LazyCollection(LazyCollectionOption.FALSE)
-
 	private List<Tag> tags;
 
 	

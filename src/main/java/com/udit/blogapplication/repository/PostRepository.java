@@ -60,6 +60,11 @@ public interface PostRepository extends CrudRepository<Post,Integer> {
     @Query(value="select * FROM post u where u.id in :c order by u.created_at desc",nativeQuery = true)
     public List<Post> getAllPostByIdAndOrderDesc(@Param("c") List<Integer> posstId);
 
+
+    @Query(value="select * FROM post u where u.author in :c",nativeQuery = true)
+    public List<Post> getAllPostByAuthorFilter(@Param("c")  List<String> authors);
+
+
     public Page<Post> findAll(Pageable pageable);
      
 }

@@ -258,4 +258,10 @@ public class PostService {
       return tags;
    }
 
+
+   public List<Post> getAllPostByAuthorFilter(List<String> authors){
+   List<Post> posts=this.postRepository.getAllPostByAuthorFilter(authors);
+      return posts;
+   }
+
 }

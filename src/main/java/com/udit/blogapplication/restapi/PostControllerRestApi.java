@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.udit.blogapplication.entities.Post;
 import com.udit.blogapplication.services.PostService;
 
-import ch.qos.logback.core.status.Status;
+
 
 @RestController
 @RequestMapping("/getPosts")
@@ -80,17 +80,11 @@ List<Post> posts=this.postService.getAllPostByTitle(searchBy);
    }
 
 
-   @GetMapping("/filter/{authors}/{tags}/{date}")
-   public List<Post> getAllPostByFilter(@PathVariable(value = "authors",required=false) String author,
-   @PathVariable(value = "tags",required=false) String tag,
-   @PathVariable(value = "date",required=false) String dates) throws ParseException{
-  
+   @GetMapping("/filter/{authors}")
+   public List<Post> getAllPostByFilter(@PathVariable(value = "authors",required=false) String author) throws ParseException{
     List<String> authors=convert(author);
-    List<String> tags=convert(tag);
-    List<String> date=convert(dates);
-    Set<Post> posts = this.postService.getAllPostByFilter(authors, tags,date);
-    List<Post> listOfPosts=new ArrayList<>(posts);
-    return listOfPosts;
+    List<Post> posts=this.postService.getAllPostByAuthorFilter(authors);
+    return posts;
    }
 
 
