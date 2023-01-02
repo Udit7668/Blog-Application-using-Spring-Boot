@@ -78,12 +78,15 @@ public class PostControllerRestApi {
    }
 
 @GetMapping("/search/{searchBy}")
-   public List<Post> getAllPostBySearch(@PathVariable("searchBy") String searchBy,
+   public ResponseEntity<List<Post>> getAllPostBySearch(@PathVariable("searchBy") String searchBy,
    @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
    @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize  
    ){
     List<Post> posts=this.postService.getAllPostByTitle(searchBy,pageNumber,pageSize);
-    return posts;
+    if(posts==null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    return ResponseEntity.of(Optional.of(posts));
    }
 
    @GetMapping("/filterByAuthors/{authors}")
