@@ -3,6 +3,7 @@ package com.udit.blogapplication.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable().
         cors().disable().
         authorizeRequests()
-        .antMatchers("/","/login","/register","/createUser","/filter","/search","/sort","/page/**","/filter/search","/getPosts/**","sortByDate/{pageNumber}","sortByDate","/token").permitAll()
+        .antMatchers("/","/login","/register","/createUser","/filter","/search","/sort","/page/**","/filter/search","sortByDate/{pageNumber}","sortByDate","/token").permitAll()
         .anyRequest()
         .authenticated()
         .and()
@@ -53,6 +54,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
     @Bean
     public PasswordEncoder passwordEncoder(){
         return NoOpPasswordEncoder.getInstance();
+    }
+
+
+
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception{
+   return super.authenticationManagerBean();
     }
     
     
