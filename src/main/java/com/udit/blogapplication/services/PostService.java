@@ -69,6 +69,17 @@ public class PostService {
       post.getComments().remove(comment);
       this.commentRespository.delete(comment);
    }
+   public Page<Post> sortPostByDate(String sortBy,Integer pageNumber,Integer pageSize){
+         Pageable pageable=PageRequest.of(pageNumber-1, pageSize);
+         Page<Post> page;
+         if (sortBy.equalsIgnoreCase("asc")) {
+            page = this.postRepository.getAllPostOrderAsc(sortBy,pageable);
+         } else {
+            page = this.postRepository.getAllPostOrderDesc(sortBy, pageable);      
+           }
+           return page;
+   }
+
 
    public List<Post> sortPost(String sortBy, String postId) {
       if (!postId.isBlank()) {

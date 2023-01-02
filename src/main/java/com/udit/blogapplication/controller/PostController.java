@@ -120,6 +120,31 @@ public class PostController {
         model.addAttribute("post", post);
         return "view-post";
     }
+    @GetMapping("/sortByDate")
+     public String sortPostByDatePagination(@RequestParam("sortby") String sortBy,Model model){
+     return sortPostsByDate(1,sortBy,model);
+     }
+
+    @GetMapping("/sortByDate/{pageNumber}")
+    public String sortPostsByDate(
+     @PathVariable("pageNumber") Integer pageNumber,    
+      @RequestParam("sortby") String sortBy, Model model) {
+   int pageSize=10;
+       Page<Post> page=this.postService.sortPostByDate(sortBy, pageNumber, pageSize);
+       List<Post> posts=page.getContent();
+        model.addAttribute("posts", posts);
+    
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        Set<String> listOfAuthors = this.postService.findAllAuthors();
+        Set<String> lisOfTags = this.postService.findAllTags();
+        model.addAttribute("authors", listOfAuthors);
+
+        model.addAttribute("listOfTags", lisOfTags);
+        return "post-confirmation";
+    }
 
     @GetMapping("/sort")
     public String sortPosts(@RequestParam("sortby") String sortBy, Model model, @RequestParam("postId") String postId) {
@@ -133,30 +158,29 @@ public class PostController {
             postid = postid + String.valueOf(post.getId()) + ",";
         }
         model.addAttribute("postId", postid);
+        
         Set<String> listOfAuthors = this.postService.findAllAuthors();
         Set<String> lisOfTags = this.postService.findAllTags();
         model.addAttribute("authors", listOfAuthors);
 
         model.addAttribute("listOfTags", lisOfTags);
-        return "post-confirmation";
+        return "search-dashboard";
     }
-  
+
     @GetMapping("/search")
     public String searchPostsPagination(
-   @RequestParam("title") String searchBy,Model model
-    ){
+            @RequestParam("title") String searchBy, Model model) {
 
         return searchPosts(1, searchBy, model);
     }
 
-
     @GetMapping("/search/{pageNo}")
     public String searchPosts(
-    @PathVariable("pageNo") Integer pageNo,    
-    @RequestParam("title") String searchBy, Model model) {
-        int pageSize=3;
-        Page<Post> page = this.postService.getAllPostBySearch(searchBy,pageNo,pageSize);
-        List<Post> posts=page.getContent();
+            @PathVariable("pageNo") Integer pageNo,
+            @RequestParam("title") String searchBy, Model model) {
+        int pageSize = 10;
+        Page<Post> page = this.postService.getAllPostBySearch(searchBy, pageNo, pageSize);
+        List<Post> posts = page.getContent();
         model.addAttribute("searchBy", searchBy);
         Set<String> listOfAuthors = new HashSet<>();
         for (Post post : posts) {
@@ -186,7 +210,7 @@ public class PostController {
         for (Post post : posts) {
             postId = postId + String.valueOf(post.getId()) + ",";
         }
-        
+
         model.addAttribute("postId", postId);
         model.addAttribute("posts", posts);
         Set<String> lisOfTags = this.postService.findAllTags();
@@ -218,7 +242,7 @@ public class PostController {
     }
 
     @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") Integer pageNo,Model model) {
+    public String findPaginated(@PathVariable(value = "pageNo") Integer pageNo, Model model) {
         int pageSize = 10;
         Page<Post> page = this.postService.findPaginated(pageNo, pageSize);
         List<Post> listOfPosts = page.getContent();
