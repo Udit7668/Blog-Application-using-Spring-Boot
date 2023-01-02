@@ -163,10 +163,13 @@ public class PostControllerRestApi {
 
    @GetMapping("/filterByAuthorAndDate/{authors}/{date}")
    public ResponseEntity<List<Post>> getAllPostByFilterAuthorAndDateBetween(@PathVariable(value = "authors",required=false) String author,
-   @PathVariable(value = "date",required=false) String date  ) throws ParseException{
+   @PathVariable(value = "date",required=false) String date,
+   @RequestParam(value="pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+   @RequestParam(value="pageSize",defaultValue = "5",required = false) Integer pageSize 
+   ) throws ParseException{
     List<String> authors=convert(author);
     List<String> dates=convert(date);
-    List<Post> posts=this.postService.getAllPostByAuthorsAndDateBetween(authors, dates);
+    List<Post> posts=this.postService.getAllPostByAuthorsAndDateBetween(authors, dates,pageNumber,pageSize);
     if(posts==null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
