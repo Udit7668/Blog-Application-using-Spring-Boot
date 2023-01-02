@@ -69,17 +69,17 @@ public class PostService {
       post.getComments().remove(comment);
       this.commentRespository.delete(comment);
    }
-   public Page<Post> sortPostByDate(String sortBy,Integer pageNumber,Integer pageSize){
-         Pageable pageable=PageRequest.of(pageNumber-1, pageSize);
-         Page<Post> page;
-         if (sortBy.equalsIgnoreCase("asc")) {
-            page = this.postRepository.getAllPostOrderAsc(sortBy,pageable);
-         } else {
-            page = this.postRepository.getAllPostOrderDesc(sortBy, pageable);      
-           }
-           return page;
-   }
 
+   public Page<Post> sortPostByDate(String sortBy, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      Page<Post> page;
+      if (sortBy.equalsIgnoreCase("asc")) {
+         page = this.postRepository.getAllPostOrderAsc(sortBy, pageable);
+      } else {
+         page = this.postRepository.getAllPostOrderDesc(sortBy, pageable);
+      }
+      return page;
+   }
 
    public List<Post> sortPost(String sortBy, String postId) {
       if (!postId.isBlank()) {
@@ -92,9 +92,9 @@ public class PostService {
          if (sortBy.equalsIgnoreCase("asc")) {
             posts = this.postRepository.getAllPostByIdAndOrderAsc(listOfPostId);
          } else {
-            posts = this.postRepository.getAllPostByIdAndOrderDesc(listOfPostId);      
-           }
-           return posts;
+            posts = this.postRepository.getAllPostByIdAndOrderDesc(listOfPostId);
+         }
+         return posts;
 
       }
       List<Post> posts;
@@ -108,9 +108,9 @@ public class PostService {
 
    }
 
-   public Page<Post> getAllPostBySearch(String searchBy,Integer pageNumber,Integer pageSize) {
-      Pageable pageable=PageRequest.of(pageNumber-1, pageSize);
-      Page<Post> posts=this.postRepository.getAllPostByTitleOrTag(searchBy,pageable);
+   public Page<Post> getAllPostBySearch(String searchBy, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      Page<Post> posts = this.postRepository.getAllPostByTitleOrTag(searchBy, pageable);
       return posts;
    }
 
@@ -270,25 +270,22 @@ public class PostService {
       return tags;
    }
 
-
-   public List<Post> getAllPostByAuthorFilter(List<String> authors,Integer pageNumber,Integer pageSize){
-     Pageable pageable= PageRequest.of(pageNumber-1,pageSize);
-   Page<Post> page=this.postRepository.getAllPostByAuthorFilter(authors,pageable);
-  List<Post> posts=page.getContent();
+   public List<Post> getAllPostByAuthorFilter(List<String> authors, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      Page<Post> page = this.postRepository.getAllPostByAuthorFilter(authors, pageable);
+      List<Post> posts = page.getContent();
       return posts;
    }
 
-
-   public List<Post> getAllPostByTags(List<String> tags,Integer pageNumber,Integer pageSize){
-        Pageable pageable = PageRequest.of(pageNumber-1,pageSize);
-      Page<Post> page=this.postRepository.getAllPostByTag(tags,pageable);
-      List<Post> posts=page.getContent();
+   public List<Post> getAllPostByTags(List<String> tags, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      Page<Post> page = this.postRepository.getAllPostByTag(tags, pageable);
+      List<Post> posts = page.getContent();
       return posts;
    }
 
-
-   public List<Post> getAllPostByDate(List<String> date,Integer pageNumber,Integer pageSize){
-      Pageable pageable= PageRequest.of(pageNumber-1,pageSize);
+   public List<Post> getAllPostByDate(List<String> date, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
       String[] str = date.get(0).split("-");
       LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
             Integer.parseInt(str[2]), 0, 0, 0);
@@ -297,13 +294,14 @@ public class PostService {
       LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
             Integer.parseInt(str1[2]), 0, 0, 0);
       Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-      Page<Post> page = this.postRepository.findByCreationDateBetween(start,end,pageable);
-      List<Post> posts=page.getContent();
+      Page<Post> page = this.postRepository.findByCreationDateBetween(start, end, pageable);
+      List<Post> posts = page.getContent();
       return posts;
    }
 
-   public List<Post> getAllPostByFilterAll(List<String> authors,List<String> tags,List<String> date,Integer pageNumber,Integer pageSize){
-          Pageable pageable= PageRequest.of(pageNumber-1, pageSize);
+   public List<Post> getAllPostByFilterAll(List<String> authors, List<String> tags, List<String> date,
+         Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
       String[] str = date.get(0).split("-");
       LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
             Integer.parseInt(str[2]), 0, 0, 0);
@@ -312,9 +310,9 @@ public class PostService {
       LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
             Integer.parseInt(str1[2]), 0, 0, 0);
       Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-      List<Post> posts=new ArrayList<>();
-      Page<Post> page = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end,pageable);
-      List<Post> listOfPosts=page.getContent();
+      List<Post> posts = new ArrayList<>();
+      Page<Post> page = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end, pageable);
+      List<Post> listOfPosts = page.getContent();
       for (Post post : listOfPosts) {
          if (authors.contains(post.getAuthor())) {
             posts.add(post);
@@ -323,43 +321,27 @@ public class PostService {
       return posts;
    }
 
+   public List<Post> getAllPostByAuthorAndTags(List<String> authors, List<String> tags, Integer pageNumber,
+         Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
 
-   public List<Post> getAllPostByAuthorAndTags(List<String> authors,List<String> tags,Integer pageNumber,Integer pageSize){
-        Pageable pageable= PageRequest.of(pageNumber-1, pageSize);
-     
-      Set<Post> listOfPost=new HashSet<>();
+      Set<Post> listOfPost = new HashSet<>();
       for (String tag : tags) {
          for (String author : authors) {
-            Page<Post> page = this.postRepository.getAllPostByAuthorAndTag(author, tag,pageable);
-            List<Post> listOfPosts=page.getContent();
+            Page<Post> page = this.postRepository.getAllPostByAuthorAndTag(author, tag, pageable);
+            List<Post> listOfPosts = page.getContent();
             for (Post post : listOfPosts) {
                listOfPost.add(post);
             }
          }
       }
-      List<Post> posts=new ArrayList<>(listOfPost);
+      List<Post> posts = new ArrayList<>(listOfPost);
       return posts;
    }
 
-
-   public List<Post> getAllPostByAuthorsAndDateBetween(List<String> authors,List<String> date,Integer pageNumber,Integer pageSize){
-         Pageable pageable= PageRequest.of(pageNumber-1, pageSize);
-         String[] str = date.get(0).split("-");
-         LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
-               Integer.parseInt(str[2]), 0, 0, 0);
-         Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
-         String[] str1 = date.get(1).split("-");
-         LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
-               Integer.parseInt(str1[2]), 0, 0, 0);
-         Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-         Page<Post> page = this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end,pageable);
-         List<Post> posts=page.getContent();
-         return posts;
-   }
-
-
-   public List<Post> getAllPostByTagsAndDateBetween(List<String> tags,List<String> date,Integer pageNumber,Integer pageSize){
-      Pageable pageable= PageRequest.of(pageNumber-1, pageSize);
+   public List<Post> getAllPostByAuthorsAndDateBetween(List<String> authors, List<String> date, Integer pageNumber,
+         Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
       String[] str = date.get(0).split("-");
       LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
             Integer.parseInt(str[2]), 0, 0, 0);
@@ -368,40 +350,53 @@ public class PostService {
       LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
             Integer.parseInt(str1[2]), 0, 0, 0);
       Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
-      Page<Post> page = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end,pageable);
-      List<Post> posts=page.getContent();
+      Page<Post> page = this.postRepository.getAllPostByAuthorAndCreationDateBetween(authors, start, end, pageable);
+      List<Post> posts = page.getContent();
       return posts;
    }
 
-
-
-   public List<Post> findAllPost(Integer pageNumber,Integer pageSize){
-      Pageable pageable=PageRequest.of(pageNumber,pageSize);
-      Page<Post> page=this.postRepository.findAll(pageable);
-      List<Post> posts=page.getContent();
+   public List<Post> getAllPostByTagsAndDateBetween(List<String> tags, List<String> date, Integer pageNumber,
+         Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      String[] str = date.get(0).split("-");
+      LocalDateTime startDate = LocalDateTime.of(Integer.parseInt(str[0]), Integer.parseInt(str[1]),
+            Integer.parseInt(str[2]), 0, 0, 0);
+      Date start = convertLocalDateTimeToDateUsingTimestamp(startDate);
+      String[] str1 = date.get(1).split("-");
+      LocalDateTime endDate = LocalDateTime.of(Integer.parseInt(str1[0]), Integer.parseInt(str1[1]),
+            Integer.parseInt(str1[2]), 0, 0, 0);
+      Date end = convertLocalDateTimeToDateUsingTimestamp(endDate);
+      Page<Post> page = this.postRepository.getAllPostByTagAndCreationDateBetween(tags, start, end, pageable);
+      List<Post> posts = page.getContent();
       return posts;
-  }
+   }
 
+   public List<Post> findAllPost(Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+      Page<Post> page = this.postRepository.findAll(pageable);
+      List<Post> posts = page.getContent();
+      return posts;
+   }
 
-  public List<Post> sortPost(String sortBy,Integer pageNumber,Integer pageSize){
-   Pageable pageable=PageRequest.of(pageNumber,pageSize);
-   Page<Post> posts;
-   List<Post> listOfPosts=new ArrayList<>();
-   if (sortBy.equalsIgnoreCase("asc")) {
-      posts = this.postRepository.getAllPostOrderAsc(sortBy,pageable);
-      listOfPosts=posts.getContent();
-   } else {
-      posts = this.postRepository.getAllPostOrderDesc(sortBy,pageable);
-      listOfPosts=posts.getContent();      
-     }
-     return listOfPosts;
-  }
+   public List<Post> sortPost(String sortBy, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+      Page<Post> posts;
+      List<Post> listOfPosts = new ArrayList<>();
+      if (sortBy.equalsIgnoreCase("asc")) {
+         posts = this.postRepository.getAllPostOrderAsc(sortBy, pageable);
+         listOfPosts = posts.getContent();
+      } else {
+         posts = this.postRepository.getAllPostOrderDesc(sortBy, pageable);
+         listOfPosts = posts.getContent();
+      }
+      return listOfPosts;
+   }
 
-  public List<Post> getAllPostByTitle(String searchBy,Integer pageNumber,Integer pageSize) {
-   Pageable pageable=PageRequest.of(pageNumber-1, pageSize);
-   Page<Post> page=this.postRepository.getAllPostByTitleOrTag(searchBy, pageable);
-   List<Post> posts=page.getContent();
-   return posts;
-}
+   public List<Post> getAllPostByTitle(String searchBy, Integer pageNumber, Integer pageSize) {
+      Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+      Page<Post> page = this.postRepository.getAllPostByTitleOrTag(searchBy, pageable);
+      List<Post> posts = page.getContent();
+      return posts;
+   }
 
 }

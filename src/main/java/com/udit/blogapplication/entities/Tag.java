@@ -90,7 +90,6 @@ public class Tag {
 
 	public Tag() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Tag(int id, String name) {
