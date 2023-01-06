@@ -34,7 +34,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         .anyRequest()
         .authenticated()
         .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+       // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .formLogin()
         .loginPage("/login")
         .loginProcessingUrl("/doLogin")

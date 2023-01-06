@@ -1,5 +1,6 @@
 package com.udit.blogapplication.restapi;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -216,9 +217,10 @@ public class PostControllerRestApi {
    }
 
    @PutMapping("/update")
-   public ResponseEntity<Post> updatePost(@RequestBody Post post){
+   public ResponseEntity<Post> updatePost(Principal principal,@RequestBody Post post){
     try{
       this.postService.addPost(post);
+      System.out.println(principal.getName()+"*****************************");
       return ResponseEntity.of(Optional.of(post));
        }
        catch(Exception e){
